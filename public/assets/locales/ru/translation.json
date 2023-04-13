@@ -1,0 +1,50 @@
+{
+  "Currency_list": "Список валют",
+  "ComissionCalculator": "Калькулятор комиссии",
+  "InteresetCalculator": "Проценты меду сделками",
+
+  "Required_field": "Обязательное поле",
+  "Validation_message_currencyExisted": "Валюта с таким названием уже в списке",
+  "Max_length_20_characters": "Максимальная длина 20 символов",
+
+  "Label_name": "Название",
+  "Add_currency": "Добавить валюту",
+
+  "Language": "Язык",
+  "Eng": "Англ",
+  "Ru": "Рус",
+  "Save": "Сохранить",
+  "Edit": "Редактриовать",
+
+  "Date&Time_picker": "Дата и время" ,
+  "Price": "Цена",
+  "Costs": "Сумма",
+  "Date": "Дата",
+  "Invalid_value": "Невалидное значение",
+  "Quantity": "Количество",
+  "Save_purchase": "Сохранить покупку",
+  "Outcome": "Итого",
+  
+  "Palette": "Палитра",
+  "Background": "Задний план",
+  "Foreground": "Передний план",
+  "Header": "Шапка",
+  "Primary": "Основной цвет",
+  "Success": "Успех",
+  "Error": "Ошибка",
+  "Secondary": "Дополнительный цвет",
+
+  "DialogeTitle_remove_currency": "Вы уверены что хотите удалить валюту?",
+  "Disagree": "Отклонить",
+  "Agree": "Принять",
+
+  "CreditLeverage": "Кредитное плечо",
+  "Amount": "Вносимая сумма",
+  "EntryPrice": "Цена открытия",
+  "ClosingPrice": "Цена закрытия",
+  "Calculate": "Высчитать",
+
+  "Reset": "Сбросить",
+  "InitialMargin": "Начальная маржа",
+  "ProfitAndLoss": "Прибыль / убыток"
+} 

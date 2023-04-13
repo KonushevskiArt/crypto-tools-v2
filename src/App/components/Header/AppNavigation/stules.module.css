@@ -1,0 +1,25 @@
+.list {
+  list-style-type: none;
+  display: flex;
+}
+
+.listEl {
+  margin-right: 40px;
+}
+
+.link {
+  display: block;
+  font-size: 18px;
+  color: white;
+  text-decoration: none; 
+  transition: color 0.2s, transform 0.2s;
+}
+.link:hover {
+  color: rgb(181, 228, 247);
+  transform: scale(1.1);
+}
+
+.active {
+  color: rgb(211, 250, 253);
+  transform: scale(1.1);
+}

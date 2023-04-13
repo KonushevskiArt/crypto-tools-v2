@@ -1,0 +1,50 @@
+{
+  "Currency_list": "Currency list",
+  "ComissionCalculator": "Commission calculator",
+  "InteresetCalculator": "Intereset сalculator",
+
+  "Required_field": "Required field",
+  "Validation_message_currencyExisted": "A currency with this name is already in the list",
+  "Max_length_20_characters": "Max length 20 characters",
+
+  "Label_name": "Name",
+  "Add_currency": "Add currency",
+
+  "Language": "Language", 
+  "Eng": "En",
+  "Ru": "Ru",
+  "Save": "Save",
+  "Edit": "Edit",
+
+  "Date&Time_picker": "Date&Time picker",
+  "Price": "Price",
+  "Costs": "Costs",
+  "Date": "Date",
+  "Invalid_value": "Invalid value",
+  "Quantity": "Quantity",
+  "Save_purchase": "Save purchase",
+  "Outcome": "Outcome",
+
+  "Palette": "Palette",
+  "Background": "Background",
+  "Foreground": "Foreground",
+  "Header": "Header",
+  "Primary": "Primary color",
+  "Success": "Success",
+  "Error": "Error",
+  "Secondary": "Secondary color",
+
+  "DialogeTitle_remove_currency": "Are you sure you want to delete the currency?",
+  "Disagree": "Disagree",
+  "Agree": "Agree",
+
+  "CreditLeverage": "Credit leverage",
+  "Amount": "Deposit amount", 
+  "EntryPrice": "Entry price",
+  "ClosingPrice": "Closing price",
+  "Calculate": "Calculate",
+
+  "Reset": "Reset",
+  "InitialMargin": "Initial margin",
+  "ProfitAndLoss": "Profit / loss"
+}
