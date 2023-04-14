@@ -3,60 +3,50 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { editCurrencyName } from "../../../redux/currencySlice";
+import { editCurrencyName } from "../../../../redux/currencySlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import Badge from "@mui/material/Badge";
 import SaveIcon from "@mui/icons-material/Save";
-
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-const CurrencyNameEditor = ({ currencyName }) => {
+const CurrencyNameEditor = ({ currencyId }) => {
   const { t } = useTranslation();
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const dispatch = useDispatch();
 
-  const currencys = useSelector((state) => {
+  const currencies = useSelector((state) => {
     return state.currencies.currencies;
   });
 
+  const currencyName = currencies[currencyId].name;
+
   const [isEdit, setIsEdit] = React.useState(false);
-  const [name, setName] = React.useState(currencyName);
 
-  const [validationError, setValidationError] = React.useState(false);
-  const [validationMessage, setValidationMessage] = React.useState(null);
-
-  const handleChange = (e) => {
-    setName(e.target.value);
-    setValidationError(false);
-    setValidationMessage(null);
+  const onSaveNewName = ({ name }) => {
+    dispatch(editCurrencyName({ newName: name, id: currencyId }));
+    reset();
+    setIsEdit(false)
   };
 
-  const handleSave = (evt) => {
-    evt.stopPropagation();
-    evt.preventDefault();
-    const trimmedName = name.trim();
-    if (trimmedName.length > 20) {
-      setValidationError(true);
-      setValidationMessage(t("Max_length_20_characters"));
-    } else if (trimmedName.length < 1) {
-      setValidationError(true);
-      setValidationMessage(t("Required_field"));
-    } else if (currencyName === trimmedName) {
-      setIsEdit(false);
-    } else if (currencys[trimmedName]) {
-      setValidationError(true);
-      setValidationMessage(t("Required_field"));
-    } else {
-      dispatch(editCurrencyName({ newName: name, oldName: currencyName }));
-      setIsEdit(false);
-    }
-  };
   const handleEdit = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
     setIsEdit(true);
   };
+  const handleClickBySaveNewName = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+  }
 
   return (
     <Box
@@ -68,7 +58,7 @@ const CurrencyNameEditor = ({ currencyName }) => {
     >
       {isEdit ? (
         <>
-          <form>
+          <form onSubmit={handleSubmit(onSaveNewName)}>
             <Box
               sx={{
                 display: "flex",
@@ -81,18 +71,21 @@ const CurrencyNameEditor = ({ currencyName }) => {
                 id="outlined-basic"
                 label={t("Label_name")}
                 variant="outlined"
-                onChange={handleChange}
+                {...register("name", {
+                  required: t("Required_field"),
+                  maxLength: { value: 20, message: "max length 20 characters" },
+                })}
                 onClick={(e) => e.stopPropagation()}
                 sx={{ marginRight: "40px" }}
                 defaultValue={currencyName}
-                error={validationError}
-                helperText={validationError ? validationMessage : null}
+                error={!!errors.name}
+                helperText={ errors?.name ? errors.name.message : null }
               />
               <Button
                 type="submit"
                 variant="outlined"
+                onClick={handleClickBySaveNewName}
                 size="small"
-                onClick={handleSave}
                 startIcon={<SaveIcon />}
               >
                 {t("Save")}
@@ -103,14 +96,14 @@ const CurrencyNameEditor = ({ currencyName }) => {
       ) : (
         <>
           <Badge
-            badgeContent={currencys[currencyName].length}
+            badgeContent={currencies[currencyId].listOfPurchases.length || 0 }
             color="secondary"
             sx={{ paddingRight: "10px" }}
           >
             <Typography
               sx={{ fontSize: "24px", fontWeight: "700", color: "#404040" }}
             >
-              {currencyName}
+              {currencies[currencyId].name}
             </Typography>
           </Badge>
           <Button

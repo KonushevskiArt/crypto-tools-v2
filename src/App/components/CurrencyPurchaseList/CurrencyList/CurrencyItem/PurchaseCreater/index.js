@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { addPurchase } from "../../../redux/currencySlice";
+import { addPurchase } from "../../../../../redux/currencySlice";
 import { useForm } from "react-hook-form";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
-const PurchaseCreater = ({ name }) => {
+const PurchaseCreater = ({ currencyId }) => {
   const { t } = useTranslation();
 
   const {
@@ -29,10 +29,10 @@ const PurchaseCreater = ({ name }) => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = ({ price, quantity }) => {
+  const onSubmit = ({ price, quantity }) => { 
     dispatch(
       addPurchase({
-        name,
+        currencyId,
         price,
         quantity,
         date: Date.parse(new Date(dateValue)),

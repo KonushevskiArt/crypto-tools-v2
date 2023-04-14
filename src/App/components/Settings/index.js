@@ -1,3 +1,4 @@
+/*eslint-env browser*/
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -9,13 +10,43 @@ import ListItemText from "@mui/material/ListItemText";
 import { useContext } from "react";
 import { ColorContext } from "../../colorContext";
 import { Typography } from "@mui/material";
-
 import { useTranslation } from "react-i18next";
+
+const paletteInfo = [
+  {
+    text: "Background",
+    key: "background",
+  },
+  {
+    text: "Foreground",
+    key: "foreground",
+  },
+  {
+    text: "Header",
+    key: "header",
+  },
+  {
+    text: "Success",
+    key: "success",
+  },
+  {
+    text: "Error",
+    key: "error",
+  },
+  {
+    text: "Primary",
+    key: "primary",
+  },
+  {
+    text: "Secondary",
+    key: "secondary",
+  },
+];
 
 export default function Menu({ isShowMenu, setShowMenu }) {
   const { t } = useTranslation();
 
-  const { colors, setColors } = useContext(ColorContext);
+  const { colors, setColors, defaultColors } = useContext(ColorContext);
   let lastCall = React.useRef(undefined);
   let previousCall = React.useRef(lastCall.current);
 
@@ -30,41 +61,14 @@ export default function Menu({ isShowMenu, setShowMenu }) {
       lastCall.current - previousCall.current > 300
     ) {
       setColors(newColors);
-      console.log(color);
       localStorage.setItem("colorTheme", JSON.stringify(newColors));
     }
   };
 
-  const paletteInfo = [
-    {
-      text: "Background",
-      key: "background",
-    },
-    {
-      text: "Foreground",
-      key: "foreground",
-    },
-    {
-      text: "Header",
-      key: "header",
-    },
-    {
-      text: "Success",
-      key: "success",
-    },
-    {
-      text: "Error",
-      key: "error",
-    },
-    {
-      text: "Primary",
-      key: "primary",
-    },
-    {
-      text: "Secondary",
-      key: "secondary",
-    },
-  ];
+  const handleClickByDefaultColors = () => {
+    setColors(defaultColors);
+    localStorage.setItem("colorTheme", JSON.stringify(defaultColors));
+  }
 
   const list = () => (
     <Box sx={{ minWidth: 300 }} role="presentation">
@@ -76,20 +80,24 @@ export default function Menu({ isShowMenu, setShowMenu }) {
           ;
         </ListItem>
         {paletteInfo.map(({ text, key }) => (
-          <div key={key}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary={t(text)} />
-                <input
-                  onChange={(evt) => changeColorValue(evt, key)}
-                  defaultValue={colors[key]}
-                  type="color"
-                ></input>
-              </ListItemButton>
-            </ListItem>
+          <ListItem key={key} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={t(text)} />
+              <input
+                onChange={(evt) => changeColorValue(evt, key)}
+                defaultValue={colors[key]}
+                type="color"
+              ></input>
+            </ListItemButton>
             <Divider />
-          </div>
+          </ListItem>
         ))}
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleClickByDefaultColors}>
+            Use Default colors
+          </ListItemButton>
+          <Divider />
+        </ListItem>
       </List>
     </Box>
   );
@@ -97,7 +105,7 @@ export default function Menu({ isShowMenu, setShowMenu }) {
   return (
     <React.Fragment>
       <Drawer
-        anchor={"left"}
+        anchor={"right"}
         open={isShowMenu}
         onClose={() => setShowMenu(false)}
       >

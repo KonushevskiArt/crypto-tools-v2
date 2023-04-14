@@ -2,15 +2,17 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+
+
 const defaultColors = {
-  primary: "#687f9c",
-  secondary: "#c091ca",
-  error: "#d32f2f",
-  success: "#2e7d32",
-  foreground: "#fafafa",
-  background: "#caced3",
-  header: "#d3bbbb",
-};
+  primary:"#235490",
+  secondary:"#c091ca",
+  error:"#6e2121",
+  success:"#476780",
+  foreground:"#ffffff",
+  background:"#81a785",
+  header:"#539d5b"
+}
 
 const colorTheme =
   JSON.parse(localStorage.getItem("colorTheme")) || defaultColors;
@@ -43,7 +45,7 @@ const ColorThemeContext = ({ children }) => {
   });
 
   return (
-    <ColorContext.Provider value={{ colors, setColors }}>
+    <ColorContext.Provider value={{ colors, setColors, defaultColors }}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorContext.Provider>
   );

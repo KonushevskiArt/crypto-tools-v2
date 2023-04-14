@@ -1,51 +1,43 @@
+/* eslint-env browser */
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import CurrencyItem from "../CurrencyItem";
+import CurrencyItem from "./CurrencyItem";
 import { useSelector } from "react-redux";
-import { removeCurrency, toggleAccardion } from "../../../redux/currencySlice";
+import { removeCurrency } from "../../../redux/currencySlice";
 import { useDispatch } from "react-redux";
-import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import CurrencyNameEditor from "../CurrencyNameEditor";
-import { Typography } from "@mui/material";
+import CurrencyNameEditor from "./CurrencyNameEditor";
 import { useTranslation } from "react-i18next";
-
 import AlertDialog from "../../share/ConfirmationDialog";
-
-import {
-  averagePrice,
-  totalCosts,
-  totalQuantity,
-} from "../../../Utils/calculations";
+import Box from "@mui/material/Box";
+import AdditionalInfo from "./AdditionalInfo";
 
 const CurrencyList = () => {
   const { t } = useTranslation();
 
   const [isOpen, setOpen] = React.useState(false);
-  const [removedCurrencie, setRemovedCurrencie] = React.useState(null);
+  const [removedCurrencyId, setRemovedCurrencyId] = React.useState(null);
 
   const dispatch = useDispatch();
 
   const currencies = useSelector((state) => state.currencies.currencies);
-  const opendAccordions =
-    useSelector((state) => state.currencies.opendAccordions) || {};
 
   const currenciesArr = Object.keys(currencies);
 
-  const handleRemoveCurrency = (evt, name) => {
+  const handleRemoveCurrency = (evt, id) => {
     evt.stopPropagation();
     evt.preventDefault();
-    setRemovedCurrencie(name);
+    setRemovedCurrencyId(id);
     setOpen(true);
   };
 
-  const ProvedRemoveCurrency = (name) => {
-    dispatch(removeCurrency({ name }));
+  const ProvedRemoveCurrency = (id) => {
+    dispatch(removeCurrency({ id }));
     setOpen(false);
   };
 
@@ -53,20 +45,14 @@ const CurrencyList = () => {
     setOpen(false);
   };
 
-  const handleAccordionChange = (name) => {
-    dispatch(toggleAccardion({ name }));
-  };
-
   const dialogeTitle = t("DialogeTitle_remove_currency");
 
   return (
     <div>
-      {currenciesArr.map((currencyName) => (
+      {currenciesArr.map(( currencyId ) => (
         <Accordion
-          expanded={opendAccordions[currencyName] || false}
-          key={currencyName + Date.now()}
+          key={currencyId}
           sx={{ backgroundColor: "custom.foreground" }}
-          onChange={() => handleAccordionChange(currencyName)}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -81,7 +67,7 @@ const CurrencyList = () => {
                 width: "100%",
               }}
             >
-              <CurrencyNameEditor currencyName={currencyName} />
+              <CurrencyNameEditor currencyId={currencyId} />
               <Box
                 sx={{
                   display: "flex",
@@ -89,45 +75,14 @@ const CurrencyList = () => {
                   alignItems: "center",
                 }}
               >
-                <Box
-                  sx={{
-                    border: "1px solid black",
-                    padding: "5px 20px",
-                    borderRadius: "10px",
-                    marginRight: "40px",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      borderRight: "1px solid black",
-                      marginRight: "20px",
-                      paddingRight: "20px",
-                    }}
-                    component="span"
-                  >
-                    {averagePrice(currencies[currencyName]) || 0}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      borderRight: "1px solid black",
-                      marginRight: "20px",
-                      paddingRight: "20px",
-                    }}
-                    component="span"
-                  >
-                    {totalQuantity(currencies[currencyName]) || 0}
-                  </Typography>
-                  <Typography component="span">
-                    {totalCosts(currencies[currencyName]) || 0}
-                  </Typography>
-                </Box>
+                <AdditionalInfo currencies={currencies} currencyId={currencyId} />
                 <Tooltip title="Delete">
                   <IconButton
                     type="button"
                     color="error"
                     size="small"
                     sx={{ marginRight: "30px" }}
-                    onClick={(evt) => handleRemoveCurrency(evt, currencyName)}
+                    onClick={(evt) => handleRemoveCurrency(evt, currencyId)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -136,14 +91,14 @@ const CurrencyList = () => {
             </Box>
           </AccordionSummary>
           <AccordionDetails>
-            <CurrencyItem name={currencyName} />
+            <CurrencyItem currencyId={currencyId} />
           </AccordionDetails>
         </Accordion>
       ))}
       <AlertDialog
         isOpen={isOpen}
         handleClose={handleClose}
-        handleAccept={() => ProvedRemoveCurrency(removedCurrencie)}
+        handleAccept={() => ProvedRemoveCurrency(removedCurrencyId)}
         title={dialogeTitle}
       />
     </div>

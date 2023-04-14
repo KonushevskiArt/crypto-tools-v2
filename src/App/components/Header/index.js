@@ -1,6 +1,6 @@
 import React from "react";
 import i18next from "i18next";
-
+import Logo from "./Logo";
 import Cookies from "js-cookie";
 
 import Box from "@mui/material/Box";
@@ -40,28 +40,20 @@ const Header = () => {
         position="static"
         sx={{
           backgroundColor: "custom.header",
-          paddingBottom: "5px",
-          paddingTop: "5px",
         }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => setShowMenu(true)}
-          >
-            <SettingsIcon />
-          </IconButton>
-
+          <Logo height={'80px'} width={'134px'} />
+          
           <AppNavigation />
 
           <Box
             sx={{
-              minWidth: 120,
+              minWidth: 140,
               position: "absolute",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '20px',
               top: "12px",
               right: "20px",
               color: "inherit",
@@ -98,6 +90,16 @@ const Header = () => {
                 </MenuItem>
               </Select>
             </FormControl>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              // sx={{ mr: 2 }}
+              onClick={() => setShowMenu(true)}
+            >
+              <SettingsIcon />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

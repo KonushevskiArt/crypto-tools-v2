@@ -1,20 +1,20 @@
-export const averagePrice = (currencyData) => {
-  const sum = currencyData.reduce(
+export const averagePrice = (listOfPurchase) => {
+  const sum = listOfPurchase.reduce(
     (acc, currency) => acc + Number(currency.price),
     0
   );
-  return parseFloat((sum / currencyData.length).toFixed(4));
+  return parseFloat((sum / listOfPurchase.length).toFixed(4));
 };
 
-export const totalQuantity = (currencyData) => {
-  return currencyData.reduce(
+export const totalQuantity = (listOfPurchase) => {
+  return listOfPurchase.reduce(
     (acc, currency) => acc + Number(currency.quantity),
     0
   );
 };
 
-export const totalCosts = (currencyData) => {
-  const arrOfCosts = currencyData
+export const totalCosts = (listOfPurchase) => {
+  const arrOfCosts = listOfPurchase
     .map((currency) => currency.price * currency.quantity)
     .reduce((acc, cost) => acc + cost, 0);
   return parseFloat(arrOfCosts.toFixed(4));

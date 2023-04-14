@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   currencies: {},
-  opendAccordions: {},
 };
 
 const storage = JSON.parse(localStorage.getItem("currencies"));
@@ -14,31 +13,29 @@ export const currenciesSlice = createSlice({
   initialState:
     storage === null
       ? initialState
-      : { currencies: storage, opendAccordions: {} },
+      : { currencies: storage },
   reducers: {
     addCurrency: (state, action) => {
       const { name } = action.payload;
-      console.log(name)
-      state.currencies[name] = [];
+      const id = uuidv4();
+      state.currencies[id] = { id, name, listOfPurchases: []};
       const newState = JSON.stringify({ ...state.currencies });
 
       localStorage.setItem("currencies", newState);
     },
     editCurrencyName: (state, action) => {
-      const { newName, oldName } = action.payload;
+      const { newName, id } = action.payload;
 
-      const stateCurrencie = state.currencies[oldName];
-      state.currencies[newName] = stateCurrencie;
-
-      delete state.currencies[oldName];
+      const stateCurrencies = state.currencies[id];
+      stateCurrencies.name = newName;
 
       const newState = JSON.stringify({ ...state.currencies });
 
       localStorage.setItem("currencies", newState);
     },
     addPurchase: (state, action) => {
-      const { name, price, quantity, date } = action.payload;
-      state.currencies[name].push({
+      const { currencyId, price, quantity, date } = action.payload;
+      state.currencies[currencyId].listOfPurchases.push({
         date: date,
         price: price,
         quantity: quantity,
@@ -49,39 +46,29 @@ export const currenciesSlice = createSlice({
       localStorage.setItem("currencies", newState);
     },
     removePurchase: (state, action) => {
-      const { name, id } = action.payload;
+      const { currencyId, purchaseId } = action.payload;
 
-      const purchaseList = state.currencies[name];
+      const listOfPurchases = state.currencies[currencyId].listOfPurchases;
 
-      const idx = purchaseList.findIndex((purchase) => id === purchase.id);
+      const idx = listOfPurchases.findIndex((purchase) => purchaseId === purchase.id);
 
-      const newPurchaseList = [
-        ...purchaseList.slice(0, idx),
-        ...purchaseList.slice(idx + 1),
+      const newlistOfPurchases = [
+        ...listOfPurchases.slice(0, idx),
+        ...listOfPurchases.slice(idx + 1),
       ];
 
-      state.currencies[name] = newPurchaseList;
+      state.currencies[currencyId].listOfPurchases = newlistOfPurchases;
 
       const newState = JSON.stringify({ ...state.currencies });
 
       localStorage.setItem("currencies", newState);
     },
     removeCurrency: (state, action) => {
-      delete state.currencies[action.payload.name];
+      delete state.currencies[action.payload.currencyId];
 
       const newState = JSON.stringify({ ...state.currencies });
 
       localStorage.setItem("currencies", newState);
-    },
-    toggleAccardion: (state, action) => {
-      const currentValue = state.opendAccordions[action.payload.name];
-      if (currentValue) {
-        state.opendAccordions[action.payload.name] = currentValue
-          ? false
-          : true;
-      } else {
-        state.opendAccordions[action.payload.name] = true;
-      }
     },
   },
 });
@@ -92,7 +79,6 @@ export const {
   addPurchase,
   removeCurrency,
   removePurchase,
-  toggleAccardion,
 } = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

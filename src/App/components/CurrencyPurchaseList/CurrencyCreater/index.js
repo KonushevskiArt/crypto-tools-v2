@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { addCurrency } from "../../../redux/currencySlice";
 import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
-import { useSelector } from "react-redux";
 import DataSaverOnIcon from "@mui/icons-material/DataSaverOn";
 
 import { useTranslation } from "react-i18next";
@@ -18,29 +17,12 @@ const CurrencyCreater = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [additionalError, setEdditionalError] = React.useState(false);
-  const [additionalMessage, setEdditionalMessage] = React.useState(null);
-
-  const currencys = useSelector((state) => {
-    return state.currencies.currencies;
-  });
 
   const dispatch = useDispatch();
 
-  const handleChange = () => {
-    setEdditionalError(false);
-    setEdditionalMessage(null);
-  };
-
   const onSubmit = ({ name }) => {
-    const trimmedName = name.trim();
-    if (currencys[trimmedName]) {
-      setEdditionalError(true);
-      setEdditionalMessage(t("Validation_message_currencyExisted"));
-    } else {
-      dispatch(addCurrency({ name: trimmedName }));
-      reset();
-    }
+    dispatch(addCurrency({ name }));
+    reset();
   };
 
   return (
@@ -61,15 +43,8 @@ const CurrencyCreater = () => {
             required: t("Required_field"),
             maxLength: { value: 20, message: "max length 20 characters" },
           })}
-          onChange={handleChange}
-          error={!!errors?.name || additionalError}
-          helperText={
-            errors?.name
-              ? errors.name.message
-              : additionalError
-              ? additionalMessage
-              : null
-          }
+          error={!!errors.name}
+          helperText={ errors?.name ? errors.name.message : null }
         />
         <Button
           size="small"
