@@ -8,20 +8,23 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { addProfitTableRow } from "../../../redux/profitTablesSlice";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
-const arrOfNumberFieldsData = [
-  {label: 'Входная цена', register: 'entryPrice'}, 
-  {label: 'Цена закрытия', register: 'exitPrice'},
-  {label: 'SL', register: 'sl'},
-  {label: 'BY', register: 'by'},
-  {label: 'TP1', register: 'tp1'},
-  {label: 'TP2', register: 'tp2'},
-  {label: 'TP3', register: 'tp3'},
-] 
 
 const ProfitTableRowCreater = ({ tableId }) => {
   const { t } = useTranslation();
+  const matches = useMediaQuery('(min-width:1050px)');
+  
+  const arrOfNumberFieldsData = [
+    {label: t("EntryPrice"), register: 'entryPrice'}, 
+    {label: t("ClosingPrice"), register: 'exitPrice'},
+    {label: 'SL', register: 'sl'},
+    {label: 'BY', register: 'by'},
+    {label: 'TP1', register: 'tp1'},
+    {label: 'TP2', register: 'tp2'},
+    {label: 'TP3', register: 'tp3'},
+  ] 
 
   const {
     register,
@@ -50,15 +53,16 @@ const ProfitTableRowCreater = ({ tableId }) => {
       <Box
         p="20px"
         sx={{
+          minWidth: "600px",
           display: "grid",
-          gridTemplateColumns: 'repeat(5, 1fr)',
+          gridTemplateColumns: matches ? 'repeat(5, 1fr)' : 'repeat(3, 1fr)',
           gap: '20px',
           backgroundColor: 'custom.foreground',
         }}
       >
         <TextField
           id="standard-basic"
-          label={"Название монеты"}
+          label={t("Label_name")}
           variant="standard"
           {...register("coinName", {
             required: t("Required_field"),
@@ -97,7 +101,7 @@ const ProfitTableRowCreater = ({ tableId }) => {
           }}
           startIcon={<LibraryAddIcon />}
         >
-          {"Создать ряд"}
+          {t("CreateRow")}
         </Button>
       </Box>
     </form>

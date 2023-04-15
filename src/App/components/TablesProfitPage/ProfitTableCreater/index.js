@@ -75,7 +75,7 @@ const ProfitTableCreater = () => {
             color="success"
             startIcon={<DataSaverOnIcon />}
           >
-            {"Добавить таблицу"}
+            {t("AddTable")}
           </Button>
         </Box>
       </form>

@@ -13,6 +13,7 @@ const ListOfProfitTables = () => {
     <List
       sx={{
         paddingTop: "50px",
+        minWidth: '700px',
         maxWidth: "900px",
         display: "grid",
         gap: "30px",

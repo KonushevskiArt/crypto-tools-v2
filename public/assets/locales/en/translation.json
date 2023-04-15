@@ -46,5 +46,9 @@
 
   "Reset": "Reset",
   "InitialMargin": "Initial margin",
-  "ProfitAndLoss": "Profit / loss"
+  "ProfitAndLoss": "Profit / loss",
+
+  "PageOfTables": "Page of tables",
+  "AddTable": "Add the Table",
+  "CreateRow": "Create the row"
 }

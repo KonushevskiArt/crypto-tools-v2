@@ -18,7 +18,7 @@ const AppNavigation = () => {
     },
     {
       to: `tables`,
-      text: "Tables Page",
+      text: t("PageOfTables"),
     },
   ];
 

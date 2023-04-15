@@ -14,7 +14,10 @@ import Tooltip from '@mui/material/Tooltip';
 import { removeProfitTableRow } from '../../../redux/profitTablesSlice';
 import { useDispatch } from "react-redux";
 
+import { useTranslation } from "react-i18next";
+
 export default function ProfitTable({ tableId, tableData }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleRemoveRow = ( rowId ) => {
@@ -30,9 +33,9 @@ export default function ProfitTable({ tableId, tableData }) {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow >
-              <TableCell>Название монеты</TableCell>
-              <TableCell align="right">Цена входа</TableCell>
-              <TableCell align="right">Цена выхода</TableCell>
+              <TableCell>{t("Label_name")}</TableCell>
+              <TableCell align="right">{t("EntryPrice")}</TableCell>
+              <TableCell align="right">{t("ClosingPrice")}</TableCell>
               <TableCell align="right">SL</TableCell>
               <TableCell align="right">BY ?</TableCell>
               <TableCell align="right">TP1</TableCell>

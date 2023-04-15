@@ -16,21 +16,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const purchasesComparison = (purchase1, purchase2) => {
-  const date1 = Number(purchase1.date);
-  const date2 = Number(purchase2.date);
-  if (date1 < date2) {
-    return -1;
-  }
-  return 1;
-};
-
 const CurrencyItemTableBody = ({ listOfPurchases, handleRemovePurchase }) => {
   return (
     <TableBody>
       {listOfPurchases
-        ? Array.from(listOfPurchases)
-            .sort(purchasesComparison)
+        ? listOfPurchases
             .map(({ date, price, quantity, id }) => (
               <StyledTableRow
                 key={id}

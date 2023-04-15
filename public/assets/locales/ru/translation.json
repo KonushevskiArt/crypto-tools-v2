@@ -46,5 +46,9 @@
 
   "Reset": "Сбросить",
   "InitialMargin": "Начальная маржа",
-  "ProfitAndLoss": "Прибыль / убыток"
+  "ProfitAndLoss": "Прибыль / убыток",
+
+  "PageOfTables": "Страница таблиц",
+  "AddTable": "Добавить таблицу",
+  "CreateRow": "Создать ряд"
 } 
