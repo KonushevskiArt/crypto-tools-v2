@@ -1,9 +1,11 @@
 export const averagePrice = (listOfPurchase) => {
-  const sum = listOfPurchase.reduce(
-    (acc, currency) => acc + Number(currency.price),
-    0
-  );
-  return parseFloat((sum / listOfPurchase.length).toFixed(4));
+  // const sum = listOfPurchase.reduce(
+  //   (acc, currency) => acc + Number(currency.price),
+  //   0
+  // );
+  // totalCosts(listOfPurchase)
+  // totalQuantity(listOfPurchase)
+  return parseFloat((totalCosts(listOfPurchase) / totalQuantity(listOfPurchase)).toFixed(4));
 };
 
 export const totalQuantity = (listOfPurchase) => {
