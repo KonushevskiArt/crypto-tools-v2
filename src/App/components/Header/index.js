@@ -19,11 +19,7 @@ import { useTranslation } from "react-i18next";
 
 import Menu from "../Settings";
 // import AppNavigation from "./AppNavigation";
-
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
+import { AuthorizationBar } from "./AuthorizationBar";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -65,14 +61,7 @@ const Header = () => {
               border: "inherit",
             }}
           >
-            <Stack direction="row" spacing={2}>
-              <Button variant="outlined" startIcon={<DeleteIcon />}>
-                Sign in
-              </Button>
-              <Button variant="contained" startIcon={<SendIcon />}>
-                Log in
-              </Button>
-            </Stack>
+            <AuthorizationBar />
             <FormControl fullWidth>
               <InputLabel
                 sx={{ color: "inherit" }}

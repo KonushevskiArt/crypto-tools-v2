@@ -1,15 +1,14 @@
 /* eslint-env browser*/
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { teal, red, green } from '@mui/material/colors';
-
+import { teal, red, blue } from '@mui/material/colors';
 
 
 const defaultColors = {
-  primary:"#235490",
-  secondary:"#c091ca",
+  primary: blue[900],
+  secondary:teal[900],
   error: red[900],
-  success: green[400],
+  success: blue[500],
   foreground: teal[50],
   background: teal[100],
   header: teal[500],

@@ -43,7 +43,7 @@ export const AppNavigation = () => {
               'backgroundColor': "custom.navigation",
               padding: 0,
               margin: 0,
-              width: '200px',
+              width: '240px',
 
             }}
           >

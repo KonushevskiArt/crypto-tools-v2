@@ -9,7 +9,7 @@ const Root = () => {
   return (
     <>
       <Header />
-      <Box sx={{ width: '100%', display: 'flex', gap: '30px' }}>
+      <Box sx={{ width: '100%', display: 'flex', gap: '20px' }}>
         <AppNavigation />
         <Outlet />
       </Box>

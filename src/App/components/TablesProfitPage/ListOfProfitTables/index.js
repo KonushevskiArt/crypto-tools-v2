@@ -12,10 +12,10 @@ const ListOfProfitTables = () => {
   return (
     <List
       sx={{
-        paddingTop: "50px",
+        paddingTop: "20px",
         display: "flex",
         flexWrap: 'wrap',
-        gap: "30px",
+        gap: "20px",
         justifyItems: 'start',
     
       }}

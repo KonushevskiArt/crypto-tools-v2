@@ -10,7 +10,7 @@ const ProfitTablePage = () => {
   const tables = useSelector((state) => state.tables.tables);
 
   return (
-    <Box sx={{ pb: '20px' }}>
+    <Box sx={{ pb: '20px', pt: '20px', pr: '20px', width: '100%' }}>
       <ProfitTable tableId={id} tableData={tables[id]}  />  
       <ProfitTableRowCreator tableId={id} />
     </Box>

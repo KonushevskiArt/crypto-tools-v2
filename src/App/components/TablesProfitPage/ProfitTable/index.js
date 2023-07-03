@@ -29,7 +29,7 @@ export default function ProfitTable({ tableId, tableData }) {
      <Typography sx={{backgroundColor: 'custom.foreground'}} variant="h3" >
         {tableData.name}
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} >
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow >

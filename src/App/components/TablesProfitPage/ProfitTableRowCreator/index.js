@@ -101,7 +101,7 @@ const ProfitTableRowCreator = ({ tableId }) => {
           }}
           startIcon={<LibraryAddIcon />}
         >
-          {t("Creatorow")}
+          {t("rowCreator")}
         </Button>
       </Box>
     </form>
