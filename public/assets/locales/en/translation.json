@@ -1,6 +1,6 @@
 {
   "Currency_list": "Currency list",
-  "ComissionCalculator": "Commission calculator",
+  "CommissionCalculator": "Commission calculator",
   "InteresetCalculator": "Intereset сalculator",
 
   "Required_field": "Required field",
@@ -50,5 +50,5 @@
 
   "PageOfTables": "Page of tables",
   "AddTable": "Add the Table",
-  "CreateRow": "Create the row"
+  "Creatorow": "Create the row"
 }

@@ -18,7 +18,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useTranslation } from "react-i18next";
 
 import Menu from "../Settings";
-import AppNavigation from "./AppNavigation";
+// import AppNavigation from "./AppNavigation";
+
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import Stack from '@mui/material/Stack';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -45,7 +50,7 @@ const Header = () => {
         <Toolbar>
           <Logo height={'80px'} width={'134px'} />
           
-          <AppNavigation />
+          {/* <AppNavigation /> */}
 
           <Box
             sx={{
@@ -60,6 +65,14 @@ const Header = () => {
               border: "inherit",
             }}
           >
+            <Stack direction="row" spacing={2}>
+              <Button variant="outlined" startIcon={<DeleteIcon />}>
+                Sign in
+              </Button>
+              <Button variant="contained" startIcon={<SendIcon />}>
+                Log in
+              </Button>
+            </Stack>
             <FormControl fullWidth>
               <InputLabel
                 sx={{ color: "inherit" }}
@@ -90,6 +103,7 @@ const Header = () => {
                 </MenuItem>
               </Select>
             </FormControl>
+
             <IconButton
               size="large"
               edge="start"

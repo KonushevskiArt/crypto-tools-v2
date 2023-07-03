@@ -43,7 +43,7 @@ const CalculatorsPage = () => {
           startIcon={<CalculateIcon />}
           onClick={showCommisionCalculator}
         >
-          {t("ComissionCalculator")}
+          {t("CommissionCalculator")}
         </Button>
 
         <Button

@@ -1,7 +1,7 @@
 /*eslint-env browser*/
 import React from "react";
 import List from "@mui/material/List";
-import ProfitTableCreater from "../ProfitTableCreater";
+import ProfitTableCreator from "../ProfitTableCreator";
 import { useSelector } from "react-redux";
 import ItemOfProfitTablesList from "./ItemOfProfitTablesList";
 
@@ -13,11 +13,11 @@ const ListOfProfitTables = () => {
     <List
       sx={{
         paddingTop: "50px",
-        minWidth: '700px',
-        maxWidth: "900px",
-        display: "grid",
+        display: "flex",
+        flexWrap: 'wrap',
         gap: "30px",
-        gridTemplateColumns: "1fr 1fr 1fr",
+        justifyItems: 'start',
+    
       }}
     >
       {profitTablesArr.map((id) => (
@@ -28,7 +28,7 @@ const ListOfProfitTables = () => {
           name={profitTables[id].name}
         />
       ))}
-      <ProfitTableCreater profitTables={profitTables} />
+      <ProfitTableCreator profitTables={profitTables} />
     </List>
   );
 };

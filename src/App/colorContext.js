@@ -1,17 +1,20 @@
 /* eslint-env browser*/
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { teal, red, green } from '@mui/material/colors';
 
 
 
 const defaultColors = {
   primary:"#235490",
   secondary:"#c091ca",
-  error:"#6e2121",
-  success:"#476780",
-  foreground:"#ffffff",
-  background:"#81a785",
-  header:"#539d5b"
+  error: red[900],
+  success: green[400],
+  foreground: teal[50],
+  background: teal[100],
+  header: teal[500],
+  navigation: teal[300],
+  navActiveLink: red,
 }
 
 const colorTheme =
@@ -40,6 +43,9 @@ const ColorThemeContext = ({ children }) => {
         foreground: colors.foreground,
         background: colors.background,
         header: colors.header,
+        navigation: colors.navigation,
+        navActiveLink: colors.navActiveLink
+         
       },
     },
   });

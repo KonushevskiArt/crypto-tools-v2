@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
-const PurchaseCreater = ({ currencyId }) => {
+const PurchaseCreator = ({ currencyId }) => {
   const { t } = useTranslation();
 
   const {
@@ -120,4 +120,4 @@ const PurchaseCreater = ({ currencyId }) => {
   );
 };
 
-export default PurchaseCreater;
+export default PurchaseCreator;

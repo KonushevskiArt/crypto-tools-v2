@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import ProfitTable from "../components/TablesProfitPage/ProfitTable";
 import { useSelector } from "react-redux";
-import ProfitTableRowCreater from "../components/TablesProfitPage/ProfitTableRowCreater";
+import ProfitTableRowCreator from "../components/TablesProfitPage/ProfitTableRowCreator";
 
 const ProfitTablePage = () => {
   let { id }  = useParams();
@@ -12,7 +12,7 @@ const ProfitTablePage = () => {
   return (
     <Box sx={{ pb: '20px' }}>
       <ProfitTable tableId={id} tableData={tables[id]}  />  
-      <ProfitTableRowCreater tableId={id} />
+      <ProfitTableRowCreator tableId={id} />
     </Box>
   );
 };

@@ -4,7 +4,7 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
-import PurchaseCreater from "./PurchaseCreater";
+import PurchaseCreator from "./PurchaseCreator";
 import { useSelector } from "react-redux";
 import { removePurchase } from "../../../../redux/currencySlice";
 import { useDispatch } from "react-redux";
@@ -105,7 +105,7 @@ const CurrencyItem = ({ currencyId }) => {
         <CurrencyItemTableBody listOfPurchases={filteredListOfPurchases} handleRemovePurchase={handleRemovePurchase} />
         <CurrencyItemTableFooter listOfPurchases={listOfPurchases}/>
       </Table>
-      <PurchaseCreater currencyId={currencyId} />
+      <PurchaseCreator currencyId={currencyId} />
     </TableContainer>
   );
 };

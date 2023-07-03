@@ -9,7 +9,7 @@ import DataSaverOnIcon from "@mui/icons-material/DataSaverOn";
 
 import { useTranslation } from "react-i18next";
 
-const CurrencyCreater = () => {
+const CurrencyCreator = () => {
   const { t } = useTranslation();
   const {
     register,
@@ -61,4 +61,4 @@ const CurrencyCreater = () => {
   );
 };
 
-export default CurrencyCreater;
+export default CurrencyCreator;

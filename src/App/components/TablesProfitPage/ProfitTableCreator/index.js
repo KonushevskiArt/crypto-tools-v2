@@ -11,7 +11,7 @@ import { addProfitTable } from "../../../redux/profitTablesSlice";
 
 import { useTranslation } from "react-i18next";
 
-const ProfitTableCreater = () => {
+const ProfitTableCreator = () => {
   const { t } = useTranslation();
   const {
     register,
@@ -83,4 +83,4 @@ const ProfitTableCreater = () => {
   );
 };
 
-export default ProfitTableCreater;
+export default ProfitTableCreator;

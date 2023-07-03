@@ -1,12 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header";
+import Box from '@mui/material/Box';
+import { AppNavigation } from './../AppNavigation/index';
+
 
 const Root = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <Box sx={{ width: '100%', display: 'flex', gap: '30px' }}>
+        <AppNavigation />
+        <Outlet />
+      </Box>
     </>
   );
 };

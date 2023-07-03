@@ -12,7 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
-const ProfitTableRowCreater = ({ tableId }) => {
+const ProfitTableRowCreator = ({ tableId }) => {
   const { t } = useTranslation();
   const matches = useMediaQuery('(min-width:1050px)');
   
@@ -101,11 +101,11 @@ const ProfitTableRowCreater = ({ tableId }) => {
           }}
           startIcon={<LibraryAddIcon />}
         >
-          {t("CreateRow")}
+          {t("Creatorow")}
         </Button>
       </Box>
     </form>
   );
 };
 
-export default ProfitTableRowCreater;
+export default ProfitTableRowCreator;

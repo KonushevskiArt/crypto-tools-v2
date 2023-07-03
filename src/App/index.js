@@ -6,7 +6,6 @@ import { Box } from "@mui/system";
 import AppRouter from "./AppRouter";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import Container from '@mui/material/Container';
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -41,9 +40,7 @@ function App() {
           }}
         >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Container maxWidth="lg">
-              <AppRouter />
-            </Container>
+            <AppRouter />
           </LocalizationProvider>
         </Box>
       </ColorThemeContext>
