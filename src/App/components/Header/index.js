@@ -1,6 +1,6 @@
 import React from "react";
 import i18next from "i18next";
-import Logo from "./Logo";
+import Logo from "./icons/Logo";
 import Cookies from "js-cookie";
 
 import Box from "@mui/material/Box";
@@ -20,6 +20,8 @@ import { useTranslation } from "react-i18next";
 import Menu from "../Settings";
 // import AppNavigation from "./AppNavigation";
 import { AuthorizationBar } from "./AuthorizationBar";
+import { RuIcon } from './icons/RuIcon';
+import { UsIcon } from './icons/UsIcon';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -76,19 +78,26 @@ const Header = () => {
                 label={t("Language")}
                 onChange={handleChange}
                 size="small"
-                sx={{ color: "inherit", borderColor: "white" }}
+                sx={{ color: "inherit", display: 'flex', gap: '10px' }}
               >
                 <MenuItem
                   onClick={() => i18next.changeLanguage("ru")}
                   value="ru"
+                  
                 >
-                  {t("Ru")}
+                  <Box sx={{ display: 'flex', gap: '10px', mr: '-35px' }}>
+                    {t("Ru")}
+                    <RuIcon />
+                  </Box>
                 </MenuItem>
                 <MenuItem
                   onClick={() => i18next.changeLanguage("en")}
                   value="en"
                 >
-                  {t("Eng")}
+                  <Box sx={{ display: 'flex', gap: '10px', mr: '-35px' }}>
+                    {t("Eng")}
+                    <UsIcon />
+                  </Box>
                 </MenuItem>
               </Select>
             </FormControl>

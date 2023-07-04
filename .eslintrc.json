@@ -8,6 +8,10 @@
     "prettier"
   ],
   "plugins": ["react", "import", "jsx-a11y"],
+  "globals": {
+    "process": true,
+    "console": true
+  },
   "rules": {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,

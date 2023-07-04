@@ -1,23 +1,26 @@
 /* eslint-env browser*/
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { teal, red, blue } from '@mui/material/colors';
+import { teal, red, blue, pink,  } from '@mui/material/colors';
 
 
 const defaultColors = {
   primary: blue[900],
-  secondary:teal[900],
-  error: red[900],
+  secondary: teal[900],
+  error: pink[700],
   success: blue[500],
   foreground: teal[50],
   background: teal[100],
   header: teal[500],
   navigation: teal[300],
   navActiveLink: red,
+  authWindow: blue[400], 
 }
 
-const colorTheme =
-  JSON.parse(localStorage.getItem("colorTheme")) || defaultColors;
+// const colorTheme =
+//   JSON.parse(localStorage.getItem("colorTheme")) || defaultColors;
+
+const  colorTheme = defaultColors;
 
 export const ColorContext = React.createContext(null);
 
@@ -43,7 +46,8 @@ const ColorThemeContext = ({ children }) => {
         background: colors.background,
         header: colors.header,
         navigation: colors.navigation,
-        navActiveLink: colors.navActiveLink
+        navActiveLink: colors.navActiveLink,
+        authWindow: colors.authWindow,
          
       },
     },

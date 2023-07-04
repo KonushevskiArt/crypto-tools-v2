@@ -1,14 +1,24 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CalculatorsPage from "./pages/CalculatorsPage";
 import ErrorPage from "./pages/ErrorPage";
-import ListOfCurrenciesPage from "./pages/ListOfCurrenciesPage";
 import Root from "./components/Root";
-import Authorization from "./pages/Authorization";
+import Authorization from "./pages/Auth";
+import ListOfCurrenciesPage from "./pages/ListOfCurrenciesPage";
+import CalculatorsPage from "./pages/CalculatorsPage";
 import ProfitTablesPage from "./pages/ProfitTablesPage";
 import ProfitTablePage from "./pages/ProfitTablePage";
 
 export const router = createBrowserRouter([
+  {
+    path: "auth",
+    element: <Authorization />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "login",
+    element: <Authorization />,
+    errorElement: <ErrorPage />,
+  },
   {
     path: "/",
     element: <Root />,
@@ -32,11 +42,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/auth",
-    element: <Authorization />,
-    errorElement: <ErrorPage />,
-  },
+  
 ]);
 
 const AppRouter = () => {
