@@ -16,7 +16,7 @@ export const AuthorizationBar = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const { isAuth, email } = useAuth();
-  console.log(isAuth)
+
   const handleSignUp = () => {
     navigate('/auth');
   } 
