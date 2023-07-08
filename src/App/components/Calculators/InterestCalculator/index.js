@@ -52,7 +52,6 @@ const InterestCalculator = () => {
           }}
         >
           <TextField
-            id="standard-basic"
             label={"цена входа"}
             variant="outlined"
             sx={{ marginBottom: "20px" }}
@@ -74,7 +73,6 @@ const InterestCalculator = () => {
           </Typography>
 
           <TextField
-            id="standard-basic"
             label={"цена выхода"}
             variant="outlined"
             sx={{ marginBottom: "20px" }}

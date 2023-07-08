@@ -1,5 +1,4 @@
-/*eslint-env browser*/
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -18,6 +17,7 @@ import { setUser } from '../redux/userSlice';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
 
 import toast from 'react-hot-toast';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -48,6 +48,7 @@ const Authorization = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false)
 
   let location = useLocation();
 
@@ -55,7 +56,6 @@ const Authorization = () => {
 
   const {
     register,
-    // reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -64,16 +64,17 @@ const Authorization = () => {
     try {
       const auth = getAuth();
       if (isLogin) {
+        setLoading(true);
         const { user } = await signInWithEmailAndPassword(auth, mail, password);
-
         dispatch(setUser({
           email: user.email,
           id: user.uid,
           token: user.accessToken,
         }));
-  
+        setLoading(false);
         navigate('/')
       } else {
+        setLoading(true);
         const { user } = await createUserWithEmailAndPassword(auth, mail, password)
         console.log(user);
         dispatch(setUser({
@@ -81,12 +82,13 @@ const Authorization = () => {
           id: user.uid,
           token: user.accessToken,
         }));
-
+        setLoading(false);
         navigate('/');
       }
     
     } catch (error) {
       console.log(error)
+      setLoading(false);
       toast.error(error.message, {
         duration: 4000,
         position: 'top-center',
@@ -127,10 +129,10 @@ const Authorization = () => {
           <CssTextField
             label={"mail"}
             variant="outlined"
+            defaultValue={'abc@gmail.com'}
             inputProps={{
               autoComplete: "off",
             }}
-            id="custom-css-outlined-input"
             {...register("mail", {
               required: t("Required_field"),
               pattern: { 
@@ -153,10 +155,10 @@ const Authorization = () => {
           <CssTextField
             label={"password"}
             variant="outlined"
+            defaultValue={123456}
             inputProps={{
               autoComplete: "off",
             }}
-            id="custom-css-outlined-input"
             {...register("password", {
               required: t("Required_field"),
               maxLength: {
@@ -182,6 +184,10 @@ const Authorization = () => {
             variant="contained"
             color="success"
             startIcon={<AddBoxIcon />}
+            disabled={isLoading}
+            endIcon={
+              <ClipLoader loading={isLoading} size={20} color="#fcf" />
+            }
           >
             { isLogin ? 'log in' : 'sign up' }
           </Button>

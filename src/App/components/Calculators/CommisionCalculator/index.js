@@ -105,7 +105,6 @@ const CommissionCalculator = () => {
             {fieldsInfoArr.map(({ registerName, translationName }) => (
               <TextField
                 key={registerName}
-                id="standard-basic"
                 label={t(translationName)}
                 variant="outlined"
                 sx={{ marginBottom: "20px" }}
@@ -127,7 +126,6 @@ const CommissionCalculator = () => {
             ))}
 
             <TextField
-              id="standard-basic"
               label={t("Quantity")}
               value={removeZeros(quantity)}
               variant="outlined"

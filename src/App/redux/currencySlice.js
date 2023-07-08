@@ -15,6 +15,11 @@ export const currenciesSlice = createSlice({
       ? initialState
       : { currencies: storage },
   reducers: {
+    updateCurrenciesState: (state, action) => {
+      const { currencies } = action.payload;
+      state.currencies = {...currencies};
+      localStorage.setItem('currencies', JSON.stringify(currencies))
+    },
     addCurrency: (state, action) => {
       const { name } = action.payload;
       const id = uuidv4();
@@ -64,8 +69,9 @@ export const currenciesSlice = createSlice({
       localStorage.setItem("currencies", newState);
     },
     removeCurrency: (state, action) => {
-      delete state.currencies[action.payload.currencyId];
-
+      console.log(state.currencies[action.payload.id]);
+      console.log(action.payload);
+      delete state.currencies[action.payload.id];
       const newState = JSON.stringify({ ...state.currencies });
 
       localStorage.setItem("currencies", newState);
@@ -79,6 +85,7 @@ export const {
   addPurchase,
   removeCurrency,
   removePurchase,
+  updateCurrenciesState,
 } = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

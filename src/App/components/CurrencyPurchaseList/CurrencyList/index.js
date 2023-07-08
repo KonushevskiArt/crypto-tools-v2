@@ -1,4 +1,4 @@
-/* eslint-env browser */
+
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -71,7 +71,7 @@ const CurrencyList = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-beetwen",
+                  justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >

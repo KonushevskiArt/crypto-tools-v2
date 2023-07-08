@@ -68,7 +68,6 @@ const CurrencyNameEditor = ({ currencyId }) => {
             >
               <TextField
                 size="small"
-                id="outlined-basic"
                 label={t("Label_name")}
                 variant="outlined"
                 {...register("name", {

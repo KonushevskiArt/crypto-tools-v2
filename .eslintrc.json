@@ -10,7 +10,9 @@
   "plugins": ["react", "import", "jsx-a11y"],
   "globals": {
     "process": true,
-    "console": true
+    "console": true,
+    "localStorage": true,
+    "JSON": true
   },
   "rules": {
     "react/prop-types": 0,

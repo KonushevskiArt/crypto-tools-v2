@@ -70,7 +70,6 @@ const PurchaseCreator = ({ currencyId }) => {
           )}
         />
         <TextField
-          id="standard-basic"
           label={t("Price")}
           variant="standard"
           sx={{ marginRight: "20px" }}
@@ -89,7 +88,6 @@ const PurchaseCreator = ({ currencyId }) => {
           sx={{
             marginRight: "20px",
           }}
-          id="standard-basic"
           label={t("Quantity")}
           variant="standard"
           {...register("quantity", {

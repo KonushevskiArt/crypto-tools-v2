@@ -50,6 +50,11 @@ export const profitTablesSlice = createSlice({
   name: "profitTables",
   initialState: storage === null ? initialState : { tables: storage },
   reducers: {
+    updateProfitTablesState: (state, action) => {
+      const { profitTables } = action.payload;
+      state.tables = {...profitTables};
+      localStorage.setItem('profitTables', JSON.stringify(profitTables))
+    },
     addProfitTable: (state, action) => {
       const { name } = action.payload;
       const date = Date.parse(new Date());
@@ -116,7 +121,13 @@ export const profitTablesSlice = createSlice({
   },
 });
 
-export const { editProfitTableName, addProfitTable, removeProfitTable, addProfitTableRow, removeProfitTableRow } =
-  profitTablesSlice.actions;
+export const { 
+  editProfitTableName,
+  addProfitTable,
+  removeProfitTable,
+  addProfitTableRow,
+  removeProfitTableRow,
+  updateProfitTablesState, 
+} = profitTablesSlice.actions;
 
 export default profitTablesSlice.reducer;

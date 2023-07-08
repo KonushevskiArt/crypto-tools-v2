@@ -1,4 +1,3 @@
-/* eslint-env browser */ 
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
@@ -13,31 +12,22 @@ import TableCell from "@mui/material/TableCell";
 import CurrencyItemTableBody from "./CurrencyItemTableBody";
 import CurrencyItemTableFooter from "./CurrencyItemTableFooter";
 import Button from '@mui/material/Button';
-import SortIcon from '@mui/icons-material/Sort';
+
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+
+import AlertDialog from "../../../share/ConfirmationDialog";
+
 
 import { useTranslation } from "react-i18next";
 
-const customSort = ( arr, filter, isAscending ) => {
-  if (filter === 'costs') {
-    return Array.from(arr).sort(( el1, el2 ) => {
-      const costs1 = Number(el1.quantity) * Number(el1.price);
-      const costs2 = Number(el2.quantity) * Number(el2.price);
+import { customSort } from "./customSort";
 
-      return isAscending 
-      ? Number(costs1) - Number(costs2)
-      : Number(costs2) - Number(costs1) 
-    })  
-  }
-  return Array.from(arr).sort(( el1, el2 ) =>  
-    isAscending 
-    ? Number(el1[filter]) - Number(el2[filter])
-    : Number(el2[filter]) - Number(el1[filter]) 
-  )
-}
 
 const CurrencyItem = ({ currencyId }) => {
   const { t } = useTranslation();
-
+  const [isOpen, setOpen] = React.useState(false);
+  const [removedCurrencyId, setRemovedCurrencyId] = React.useState(null);
   
   const dispatch = useDispatch();
   
@@ -75,10 +65,23 @@ const CurrencyItem = ({ currencyId }) => {
     handleClickBy(evt, 'costs')
   }
 
-  const handleRemovePurchase = (e, purchaseId) => {
-    e.preventDefault();
-    dispatch(removePurchase({ currencyId, purchaseId }));
+  const handleRemovePurchase = (evt, id) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setRemovedCurrencyId(id);
+    setOpen(true);
   };
+
+  const ProvedRemoveCurrency = (id) => {
+    dispatch(removePurchase({ currencyId, purchaseId: id }));
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const dialogeTitle = ("Do you want to remove the purchase ?");
 
   return (
     <TableContainer
@@ -89,16 +92,34 @@ const CurrencyItem = ({ currencyId }) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <Button endIcon={<SortIcon />} onClick={handleClickByDate} variant="text">{t("Date")}</Button>
+              <Button 
+                endIcon={ isAscending ? <TrendingUpIcon /> : <TrendingDownIcon />} 
+                onClick={handleClickByDate} 
+                variant="text">
+                {t("Date")}
+              </Button>
             </TableCell>
             <TableCell align="center">
-              <Button endIcon={<SortIcon />} onClick={handleClickByPrice} variant="text">{t("Price")}</Button>
+              <Button 
+                endIcon={ isAscending ? <TrendingUpIcon /> : <TrendingDownIcon />} 
+                onClick={handleClickByPrice} 
+                variant="text">{t("Price")}</Button>
               </TableCell>
             <TableCell align="center">
-              <Button endIcon={<SortIcon />} onClick={handleClickByQuantity} variant="text">{t("Quantity")}</Button>
+              <Button 
+                endIcon={ isAscending ? <TrendingUpIcon /> : <TrendingDownIcon />} 
+                onClick={handleClickByQuantity}
+                variant="text">
+                  {t("Quantity")}
+              </Button>
             </TableCell>
             <TableCell align="center">
-              <Button endIcon={<SortIcon />} onClick={handleClickByCosts} variant="text">{t("Costs")}</Button>
+              <Button 
+                endIcon={ isAscending ? <TrendingUpIcon /> : <TrendingDownIcon />} 
+                onClick={handleClickByCosts} 
+                variant="text">
+                  {t("Costs")}
+                </Button>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -106,6 +127,12 @@ const CurrencyItem = ({ currencyId }) => {
         <CurrencyItemTableFooter listOfPurchases={listOfPurchases}/>
       </Table>
       <PurchaseCreator currencyId={currencyId} />
+      <AlertDialog
+        isOpen={isOpen}
+        handleClose={handleClose}
+        handleAccept={() => ProvedRemoveCurrency(removedCurrencyId)}
+        title={dialogeTitle}
+      />
     </TableContainer>
   );
 };

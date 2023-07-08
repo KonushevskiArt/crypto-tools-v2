@@ -36,7 +36,6 @@ const CurrencyCreator = () => {
         }}
       >
         <TextField
-          id="standard-basic"
           label={t("Label_name")}
           variant="standard"
           {...register("name", {
