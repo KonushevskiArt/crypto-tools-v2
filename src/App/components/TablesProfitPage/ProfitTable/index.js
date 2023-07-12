@@ -1,5 +1,4 @@
-/* eslint-env browser */
-import * as React from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,13 +15,36 @@ import { useDispatch } from "react-redux";
 
 import { useTranslation } from "react-i18next";
 
+import AlertDialog from '../../share/ConfirmationDialog';
+
 export default function ProfitTable({ tableId, tableData }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const handleRemoveRow = ( rowId ) => {
-    dispatch(removeProfitTableRow({ tableId, rowId }))
-  }
+  const [isOpen, setOpen] = useState(false);
+
+  const [idOfWillDeletedRow, setIdOfWillDeletedRow] = useState(null);
+  const [nameOfWillDeletedRow, setNameOfWillDeletedRow] = useState(null);
+
+  const handleRemoveRow = (evt, id, name) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setOpen(true);
+    setIdOfWillDeletedRow(id);
+    setNameOfWillDeletedRow(name)
+  };
+  
+  const ProvedRemoveRow = () => {
+    dispatch(removeProfitTableRow({ tableId, idOfWillDeletedRow }))
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const dialogeTitle = (`Do you want to remove the row ${nameOfWillDeletedRow} ?`);
+
 
   return (
     <>
@@ -66,7 +88,7 @@ export default function ProfitTable({ tableId, tableData }) {
                     <IconButton
                       color="error"
                       size="small"
-                      onClick={() => handleRemoveRow(row.rowId)}
+                      onClick={(evt) => handleRemoveRow(evt, row.rowId, row.coinName)}
                     >
                       < DeleteForeverIcon />
                     </IconButton>
@@ -77,6 +99,12 @@ export default function ProfitTable({ tableId, tableData }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <AlertDialog
+        isOpen={isOpen}
+        handleClose={handleClose}
+        handleAccept={() => ProvedRemoveRow()}
+        title={dialogeTitle}
+      />
     </>
   );
 }

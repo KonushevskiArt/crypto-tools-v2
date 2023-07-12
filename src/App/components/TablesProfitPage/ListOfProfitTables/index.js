@@ -1,4 +1,4 @@
-/*eslint-env browser*/
+
 import React from "react";
 import List from "@mui/material/List";
 import ProfitTableCreator from "../ProfitTableCreator";

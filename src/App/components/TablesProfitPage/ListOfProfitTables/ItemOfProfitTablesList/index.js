@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 import React, { useState } from "react";
 import { removeProfitTable } from "../../../../redux/profitTablesSlice";
 import { useDispatch } from "react-redux";
@@ -13,6 +12,8 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { editProfitTableName } from "../../../../redux/profitTablesSlice";
+import { Typography } from '@mui/material';
+import AlertDialog from "../../../share/ConfirmationDialog";
 
 const ItemOfProfitTablesList = ({ id, date, name }) => {
   const dispatch = useDispatch();
@@ -23,11 +24,26 @@ const ItemOfProfitTablesList = ({ id, date, name }) => {
     formState: { errors },
   } = useForm();
 
-  const [isEdit, setIsEdit] = useState(false);
+  const [isOpen, setOpen] = useState(false);
 
-  const handleRemoveTable = () => {
-    dispatch(removeProfitTable({ id }));
+  const handleRemoveTable = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setOpen(true);
   };
+  
+  const ProvedRemoveTable = (id) => {
+    dispatch(removeProfitTable({ id }));
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const dialogeTitle = (`Do you want to remove the ${name} table ?`);
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleEditName = () => {
     setIsEdit(true);
@@ -53,7 +69,7 @@ const ItemOfProfitTablesList = ({ id, date, name }) => {
         flexDirection: "column",
         justifyContent: "center",
         backgroundColor: "custom.foreground",
-        boxShadow: "0px 5px 10px 2px rgba(16, 22, 26, 0.31)",
+        boxShadow: '4px 4px 13px 0px rgba(23, 33, 41, 0.53)',
         transition: "transform 0.1s, box-shadow 0.2s",
         borderRadius: "10px",
         "&:hover": {
@@ -62,8 +78,19 @@ const ItemOfProfitTablesList = ({ id, date, name }) => {
         },
       }}
     >
+      
       <Box sx={{ flexGrow: 1 }}>
-        {!isEdit && <Link to={id}>{name}</Link>}
+        {!isEdit && <Link style={{'textDecoration': 'none', }} to={id}>
+          <Typography 
+            sx={{
+              color: 'custom.authWindow', 
+              fontStyle: 'italic', 
+              fontSize: '22px', 
+              ":hover": {color: 'custom.header', textDecoration: 'underline'} 
+            }}>
+              {name}
+          </Typography>
+        </Link>}
         {isEdit && 
          <form id="formTableNameEdit" onSubmit={handleSubmit(onSubmit)}>
            <TextField
@@ -120,6 +147,13 @@ const ItemOfProfitTablesList = ({ id, date, name }) => {
         <EditIcon />
         </IconButton>
       }
+
+      <AlertDialog
+        isOpen={isOpen}
+        handleClose={handleClose}
+        handleAccept={() => ProvedRemoveTable(id)}
+        title={dialogeTitle}
+      />
     </ListItem>
   );
 };
