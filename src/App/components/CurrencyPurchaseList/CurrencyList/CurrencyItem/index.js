@@ -12,16 +12,17 @@ import TableCell from "@mui/material/TableCell";
 import CurrencyItemTableBody from "./CurrencyItemTableBody";
 import CurrencyItemTableFooter from "./CurrencyItemTableFooter";
 import Button from '@mui/material/Button';
-
+import { Box } from "@mui/material";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 import AlertDialog from "../../../share/ConfirmationDialog";
 
-
+import { CurrencyLineChart } from "./CurrencyLineChart";
 import { useTranslation } from "react-i18next";
 
 import { customSort } from "./customSort";
+// import { InputLabel } from '@mui/material/InputLabel';
 
 
 const CurrencyItem = ({ currencyId }) => {
@@ -127,6 +128,11 @@ const CurrencyItem = ({ currencyId }) => {
         <CurrencyItemTableFooter listOfPurchases={listOfPurchases}/>
       </Table>
       <PurchaseCreator currencyId={currencyId} />
+
+      <Box>
+        <CurrencyLineChart listOfPurchases={filteredListOfPurchases} />
+      </Box>
+
       <AlertDialog
         isOpen={isOpen}
         handleClose={handleClose}
