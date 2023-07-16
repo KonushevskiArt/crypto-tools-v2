@@ -1,10 +1,22 @@
-/* eslint-env browser*/
-import React from "react";
+
+import React, { FC } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { teal, red, blue, pink,  } from '@mui/material/colors';
 
+interface IColors {
+  primary: string,
+  secondary: string,
+  error: string,
+  success: string,
+  foreground: string,
+  background: string,
+  header: string,
+  navigation: string,
+  navActiveLink: {},
+  authWindow: string, 
+}
 
-const defaultColors = {
+const defaultColors: IColors = {
   primary: blue[900],
   secondary: teal[900],
   error: pink[700],
@@ -17,14 +29,22 @@ const defaultColors = {
   authWindow: blue[400], 
 }
 
-// const colorTheme =
-//   JSON.parse(localStorage.getItem("colorTheme")) || defaultColors;
+const colorTheme: IColors =
+  JSON.parse(localStorage.getItem("colorTheme") as string) || defaultColors;
 
-const  colorTheme = defaultColors;
+type Props = {
+  children: React.ReactNode
+}
 
-export const ColorContext = React.createContext(null);
+interface IColorContext {
+  colors: IColors, 
+  setColors: React.Dispatch<React.SetStateAction<IColors>>,
+  defaultColors: IColors
+}
 
-const ColorThemeContext = ({ children }) => {
+export const ColorContext = React.createContext<IColorContext | null>(null);
+
+const ColorThemeContext: FC<Props> = ({ children }) => {
   const [colors, setColors] = React.useState(colorTheme);
 
   const theme = createTheme({
@@ -52,6 +72,7 @@ const ColorThemeContext = ({ children }) => {
       },
     },
   });
+
 
   return (
     <ColorContext.Provider value={{ colors, setColors, defaultColors }}>

@@ -3,11 +3,14 @@
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
     "prettier"
   ],
-  "plugins": ["react", "import", "jsx-a11y"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "import", "@typescript-eslint"],
   "globals": {
     "process": true,
     "console": true,
@@ -24,21 +27,11 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx":true
-    },
-    "env": {
-      "es6": true,
-      "browser": true,
-      "node": true
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      },
-      "import/resolver": {
-        "node": {
-          "extentions": [".js", ".jsx"]
-        }
-      }
     }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
   }
 }
