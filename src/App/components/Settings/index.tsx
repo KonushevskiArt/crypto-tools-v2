@@ -1,4 +1,3 @@
-/*eslint-env browser*/
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -11,46 +10,52 @@ import { useContext } from "react";
 import { ColorContext } from "../../colorContext";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { EnumColors } from "../../colorContext";
 
 const paletteInfo = [
   {
     text: "Background",
-    key: "background",
+    key: EnumColors.background,
   },
   {
     text: "Foreground",
-    key: "foreground",
+    key: EnumColors.foreground,
   },
   {
     text: "Header",
-    key: "header",
+    key: EnumColors.header,
   },
   {
     text: "Success",
-    key: "success",
+    key: EnumColors.success,
   },
   {
     text: "Error",
-    key: "error",
+    key: EnumColors.error,
   },
   {
     text: "Primary",
-    key: "primary",
+    key: EnumColors.primary,
   },
   {
     text: "Secondary",
-    key: "secondary",
+    key: EnumColors.primary,
   },
 ];
 
-export default function Menu({ isShowMenu, setShowMenu }) {
+type TMenuProps = {
+  isShowMenu: boolean,
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Menu: React.FC<TMenuProps> = ({ isShowMenu, setShowMenu }) => {
   const { t } = useTranslation();
 
   const { colors, setColors, defaultColors } = useContext(ColorContext);
-  let lastCall = React.useRef(undefined);
-  let previousCall = React.useRef(lastCall.current);
+  const lastCall = React.useRef(0);
+  const previousCall = React.useRef(lastCall.current);
 
-  const changeColorValue = (evt, color) => {
+  const changeColorValue = (evt: React.ChangeEvent<HTMLInputElement>, color: string) => {
     const value = evt.target.value;
     const newColors = { ...colors, [color]: value };
 
@@ -85,7 +90,7 @@ export default function Menu({ isShowMenu, setShowMenu }) {
               <ListItemText primary={t(text)} />
               <input
                 onChange={(evt) => changeColorValue(evt, key)}
-                defaultValue={colors[key]}
+                defaultValue={EnumColors[key]}
                 type="color"
               ></input>
             </ListItemButton>

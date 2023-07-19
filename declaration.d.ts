@@ -7,9 +7,10 @@ declare module "@mui/material/styles/createPalette" {
       background: string,
       header: string,
       navigation: string,
-      navActiveLink: {},
+      navActiveLink: {
+        [key: string]: string
+      },
       authWindow: string,
-         
     };
     
   }

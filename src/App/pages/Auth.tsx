@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -12,12 +12,18 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { Box } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
 
 import toast from 'react-hot-toast';
 import ClipLoader from "react-spinners/ClipLoader";
+
+import { useTypedDispatch } from "../redux/store";
+import { User } from "firebase/auth";
+
+interface IExpendedUser extends User {
+  accessToken : string
+}
 
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -47,40 +53,49 @@ const CssTextField = styled(TextField)({
 const Authorization = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const [isLoading, setLoading] = useState(false)
 
-  let location = useLocation();
+  const location = useLocation();
 
   const isLogin = location.pathname === '/login';
 
+  interface IFormData {
+    mail: string,
+    password: string,
+  }
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IFormData>();
 
-  const onSubmit = async ({ mail, password }) => {
+
+  const onSubmit = async ({ mail, password }: IFormData) => {
     try {
       const auth = getAuth();
       if (isLogin) {
         setLoading(true);
+        
         const { user } = await signInWithEmailAndPassword(auth, mail, password);
+        const expendedUser = user as IExpendedUser;
+
         dispatch(setUser({
           email: user.email,
           id: user.uid,
-          token: user.accessToken,
+          token: expendedUser.accessToken,
         }));
         setLoading(false);
         navigate('/')
       } else {
         setLoading(true);
         const { user } = await createUserWithEmailAndPassword(auth, mail, password)
-        console.log(user);
+
+        const expendedUser = user as IExpendedUser;
         dispatch(setUser({
           email: user.email,
           id: user.uid,
-          token: user.accessToken,
+          token: expendedUser.accessToken,
         }));
         setLoading(false);
         navigate('/');
@@ -89,7 +104,8 @@ const Authorization = () => {
     } catch (error) {
       console.log(error)
       setLoading(false);
-      toast.error(error.message, {
+      const customError = error as { message: string };
+      toast.error(customError.message, {
         duration: 4000,
         position: 'top-center',
       })
@@ -123,8 +139,6 @@ const Authorization = () => {
             boxShadow: "0px 5px 10px 2px rgba(11, 18, 22, 0.44)",
             minWidth: "300px",
           }}
-          noValidate
-          autoComplete="off"
         >
           <CssTextField
             label={"mail"}
@@ -134,7 +148,7 @@ const Authorization = () => {
               autoComplete: "off",
             }}
             {...register("mail", {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               pattern: { 
                 value: /^\S+@\S+\.\S+$/,
                 message: "Field must be email"
@@ -147,7 +161,7 @@ const Authorization = () => {
             error={!!errors?.mail}
             helperText={
               errors?.mail
-                ? errors.mail.message
+                ? <>{errors.mail.message}</>
                 : null
             }
           />
@@ -160,7 +174,7 @@ const Authorization = () => {
               autoComplete: "off",
             }}
             {...register("password", {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               maxLength: {
                 value: 30,
                 message: 'max length 30 characters'
@@ -174,7 +188,7 @@ const Authorization = () => {
             error={!!errors?.password }
             helperText={
               errors?.password
-                ? errors.password.message
+                ? <>{errors.password.message}</>
                 : null
             }
           />

@@ -127,7 +127,7 @@ const CurrencyItem = ({ currencyId }) => {
         <CurrencyItemTableBody listOfPurchases={filteredListOfPurchases} handleRemovePurchase={handleRemovePurchase} />
         <CurrencyItemTableFooter listOfPurchases={listOfPurchases}/>
       </Table>
-      <PurchaseCreator currencyId={currencyId} />
+      <PurchaseCreator id={currencyId} />
 
       <Box>
         <CurrencyLineChart listOfPurchases={filteredListOfPurchases} />

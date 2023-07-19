@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useAuth } from '../../hooks/useAuth';
@@ -14,7 +14,12 @@ import toast from 'react-hot-toast';
 import AlertDialog from '../share/ConfirmationDialog';
 
 
-export const ServerCommunication = ({ setLoading, isLoading }) => {
+type TProps = {
+  setLoading: (arg: boolean) => void,
+  isLoading: boolean
+}
+
+export const ServerCommunication: FC<TProps> = ({ setLoading, isLoading }) => {
   const { isAuth, id, email } = useAuth();
   const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
@@ -38,19 +43,25 @@ export const ServerCommunication = ({ setLoading, isLoading }) => {
     setOpen(true);
   }
 
+
+
   const downloadInfo = async () => {
     try {
-      setLoading(true);
-      const {currencies, profitTables} = await  remoteApi.getUserData(id);
-      
-      dispatch(updateCurrenciesState({currencies}))
-      dispatch(updateProfitTablesState({profitTables}))
-  
-      setLoading(false);
+      if (id) {
+        setLoading(true);
+        const data = await remoteApi.getUserData(id);
+        const { currencies, profitTables} = data;
+        console.log(data);
+        dispatch(updateCurrenciesState({currencies}))
+        dispatch(updateProfitTablesState({profitTables}))
+    
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error(error.message, {
+      const customError = error as { message: string };
+      toast.error(customError.message, {
         duration: 4000,
         position: 'top-center',
       })
@@ -64,14 +75,17 @@ export const ServerCommunication = ({ setLoading, isLoading }) => {
 
   const uploadInfo = async () => {
     try {
-      setLoading(true);
-      await remoteApi.updateUserData(id, email);
-  
-      setLoading(false);
+      if (id && email) {
+        setLoading(true);
+        await remoteApi.updateUserData(id, email);
+    
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error(error.message, {
+      const customError = error as { message: string };
+      toast.error(customError.message, {
         duration: 4000,
         position: 'top-center',
       })

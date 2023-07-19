@@ -1,8 +1,19 @@
-/*eslint-env browser*/
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { IRowOfProfitTable, IProfitTables } from "../shareTypes";
 
-const initialState = {
+
+interface IState {
+  tables: IProfitTables
+}
+
+interface IAddProfitTableRow extends IRowOfProfitTable {
+  tableId: string
+}
+
+
+const initialState: IState = {
   tables: {
     "1b048dfc-ee98-4a45-ad92-b38069b4401c":
     {
@@ -44,27 +55,27 @@ const initialState = {
   },
 };
 
-const storage = JSON.parse(localStorage.getItem("profitTables"));
+const storage = JSON.parse(localStorage.getItem("profitTables") as string) as IProfitTables || null;
 
 export const profitTablesSlice = createSlice({
   name: "profitTables",
   initialState: storage === null ? initialState : { tables: storage },
   reducers: {
-    updateProfitTablesState: (state, action) => {
+    updateProfitTablesState: (state, action: PayloadAction<{ profitTables: IProfitTables }>) => {
       const { profitTables } = action.payload;
       state.tables = {...profitTables};
-      localStorage.setItem('profitTables', JSON.stringify(profitTables))
+      localStorage.setItem('profitTables', JSON.stringify(profitTables));
     },
-    addProfitTable: (state, action) => {
+    addProfitTable: (state, action: PayloadAction<{ name: string }>) => {
       const { name } = action.payload;
-      const date = Date.parse(new Date());
+      const date = Date.parse(String(new Date()));
       const id = uuidv4();
       state.tables[id] = { table: [], date, name };
       const newState = JSON.stringify({ ...state.tables });
 
       localStorage.setItem("profitTables", newState);
     },
-    editProfitTableName: (state, action) => {
+    editProfitTableName: (state, action: PayloadAction<{ newName: string, id: string }>) => {
       const { newName, id } = action.payload;
 
       const stateTable = state.tables[id];
@@ -73,14 +84,14 @@ export const profitTablesSlice = createSlice({
 
       localStorage.setItem("profitTables", newState);
     },
-    removeProfitTable: (state, action) => {
+    removeProfitTable: (state, action: PayloadAction<{ id: string }>) => {
       delete state.tables[action.payload.id];
 
       const newState = JSON.stringify({ ...state.tables });
 
       localStorage.setItem("profitTables", newState);
     },
-    addProfitTableRow: (state, action) => {
+    addProfitTableRow: (state, action: PayloadAction<IAddProfitTableRow>) => {
       const { tableId, coinName, entryPrice, exitPrice, sl, by, tp1, tp2, tp3 } = action.payload;
       state.tables[tableId].table.push(
         {
@@ -99,7 +110,7 @@ export const profitTablesSlice = createSlice({
 
       localStorage.setItem('profitTables', newState);
     },
-    removeProfitTableRow: (state, action) => {
+    removeProfitTableRow: (state, action: PayloadAction<{ tableId: string, rowId: string }>) => {
       const { tableId, rowId } = action.payload;
 
       const rowList = state.tables[tableId].table;

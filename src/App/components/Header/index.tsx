@@ -17,11 +17,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import { useTranslation } from "react-i18next";
 
-import Menu from "../Settings";
-// import AppNavigation from "./AppNavigation";
+import { Menu } from "../Settings";
 import { AuthorizationBar } from "./AuthorizationBar";
 import { RuIcon } from './icons/RuIcon';
 import { UsIcon } from './icons/UsIcon';
+
+import { SelectChangeEvent } from "@mui/material/Select";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const Header = () => {
 
   const [language, setLanguage] = React.useState(currentLanguageCode);
 
-  const handleChange = (event) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     setLanguage(event.target.value);
     Cookies.set("i18next", event.target.value);
   };
@@ -47,8 +48,6 @@ const Header = () => {
       >
         <Toolbar>
           <Logo height={'80px'} width={'134px'} />
-          
-          {/* <AppNavigation /> */}
 
           <Box
             sx={{
@@ -107,7 +106,6 @@ const Header = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              // sx={{ mr: 2 }}
               onClick={() => setShowMenu(true)}
             >
               <SettingsIcon />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header";
 import Box from '@mui/material/Box';
-import { AppNavigation } from './../AppNavigation/index';
+import { AppNavigation } from '../AppNavigation/index';
 import Stack from '@mui/material/Stack';
 import { ServerCommunication } from "../ServerCommunication";
 import Skeleton from '@mui/material/Skeleton';

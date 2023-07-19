@@ -3,6 +3,19 @@ import React, { FC } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { teal, red, blue, pink,  } from '@mui/material/colors';
 
+export enum EnumColors {
+  primary = 'primary',
+  secondary = 'secondary',
+  error = 'error',
+  success = 'success',
+  foreground = 'foreground',
+  background = 'background',
+  header = 'header',
+  navigation = 'navigation',
+  navActiveLink = 'navActiveLink',
+  authWindow = 'authWindow', 
+}
+
 interface IColors {
   primary: string,
   secondary: string,
@@ -12,7 +25,9 @@ interface IColors {
   background: string,
   header: string,
   navigation: string,
-  navActiveLink: {},
+  navActiveLink: { 
+    [key: string]: string
+  },
   authWindow: string, 
 }
 
@@ -42,7 +57,7 @@ interface IColorContext {
   defaultColors: IColors
 }
 
-export const ColorContext = React.createContext<IColorContext | null>(null);
+export const ColorContext = React.createContext<IColorContext>({} as IColorContext);
 
 const ColorThemeContext: FC<Props> = ({ children }) => {
   const [colors, setColors] = React.useState(colorTheme);

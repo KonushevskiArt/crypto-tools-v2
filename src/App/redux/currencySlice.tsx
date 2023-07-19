@@ -1,12 +1,17 @@
-/*eslint-env browser*/
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { ICurrencies, IPurchase } from "../shareTypes";
 
-const initialState = {
+interface IState {
+  currencies: ICurrencies
+}
+
+const initialState: IState = {
   currencies: {},
 };
 
-const storage = JSON.parse(localStorage.getItem("currencies"));
+const storage = JSON.parse(localStorage.getItem("currencies") as string) as ICurrencies | null;
 
 export const currenciesSlice = createSlice({
   name: "currencies",
@@ -15,12 +20,12 @@ export const currenciesSlice = createSlice({
       ? initialState
       : { currencies: storage },
   reducers: {
-    updateCurrenciesState: (state, action) => {
+    updateCurrenciesState: (state, action: PayloadAction<{currencies: ICurrencies}>) => {
       const { currencies } = action.payload;
       state.currencies = {...currencies};
       localStorage.setItem('currencies', JSON.stringify(currencies))
     },
-    addCurrency: (state, action) => {
+    addCurrency: (state, action: PayloadAction<{name: string}>) => {
       const { name } = action.payload;
       const id = uuidv4();
       state.currencies[id] = { id, name, listOfPurchases: []};
@@ -28,7 +33,7 @@ export const currenciesSlice = createSlice({
 
       localStorage.setItem("currencies", newState);
     },
-    editCurrencyName: (state, action) => {
+    editCurrencyName: (state, action: PayloadAction<{newName: string, id: string}>) => {
       const { newName, id } = action.payload;
 
       const stateCurrencies = state.currencies[id];
@@ -38,9 +43,9 @@ export const currenciesSlice = createSlice({
 
       localStorage.setItem("currencies", newState);
     },
-    addPurchase: (state, action) => {
-      const { currencyId, price, quantity, date } = action.payload;
-      state.currencies[currencyId].listOfPurchases.push({
+    addPurchase: (state, action: PayloadAction<IPurchase>) => {
+      const { id, price, quantity, date } = action.payload;
+      state.currencies[id].listOfPurchases.push({
         date: date,
         price: price,
         quantity: quantity,
@@ -50,12 +55,12 @@ export const currenciesSlice = createSlice({
 
       localStorage.setItem("currencies", newState);
     },
-    removePurchase: (state, action) => {
+    removePurchase: (state, action: PayloadAction<{currencyId: string, purchaseId: string}>) => {
       const { currencyId, purchaseId } = action.payload;
 
       const listOfPurchases = state.currencies[currencyId].listOfPurchases;
 
-      const idx = listOfPurchases.findIndex((purchase) => purchaseId === purchase.id);
+      const idx: number = listOfPurchases.findIndex((purchase) => purchaseId === purchase.id);
 
       const newlistOfPurchases = [
         ...listOfPurchases.slice(0, idx),
@@ -68,9 +73,7 @@ export const currenciesSlice = createSlice({
 
       localStorage.setItem("currencies", newState);
     },
-    removeCurrency: (state, action) => {
-      console.log(state.currencies[action.payload.id]);
-      console.log(action.payload);
+    removeCurrency: (state, action: PayloadAction<{ id: string}>) => {
       delete state.currencies[action.payload.id];
       const newState = JSON.stringify({ ...state.currencies });
 

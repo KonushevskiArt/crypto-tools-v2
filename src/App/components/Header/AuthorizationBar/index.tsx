@@ -1,20 +1,19 @@
-/* eslint-env browser */
 import React from 'react';
-
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { Typography } from '@mui/material';
 import { removeUser } from '../../../redux/userSlice';
-import { useDispatch } from 'react-redux';
+
+import { useTypedDispatch } from '../../../redux/store';
 
 
-export const AuthorizationBar = () => {
-  const dispatch = useDispatch();
-  let navigate = useNavigate();
+export const AuthorizationBar: React.FC = () => {
+  const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
   const { isAuth, email } = useAuth();
 
   const handleSignUp = () => {
@@ -34,16 +33,16 @@ export const AuthorizationBar = () => {
       {!isAuth && 
         <Stack direction="row" spacing={1} sx={{ mr: '40px' }}>
           <Button 
-            sx={{ minWidth: 'fit-content'}} 
-            variant="" 
+            sx={{ minWidth: 'fit-content', color: 'white'}} 
+            variant="text" 
             startIcon={<HowToRegIcon />}
             onClick={handleSignUp}
           >
             Sign up 
           </Button>
           <Button 
-            sx={{ minWidth: 'fit-content'}} 
-            variant="" 
+            sx={{ minWidth: 'fit-content', color: 'white'}} 
+            variant="text" 
             startIcon={<ExitToAppIcon />}
             onClick={handleLogIn}
           >
@@ -56,7 +55,7 @@ export const AuthorizationBar = () => {
           <Typography>{email}</Typography>
           <Button 
               sx={{ minWidth: 'fit-content'}} 
-              variant="" 
+              variant="outlined" 
               startIcon={<ExitToAppIcon />}
               onClick={handleLogOut}
             >

@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Logo = ( props ) => {
+interface IProps {
+  [key: string]: string
+}
+
+const Logo: React.FC<IProps> = ( props ) => {
   return (
     <svg width="50" height="30" viewBox="0 0 154 100" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M51.6797 17.0909L43.228 68H38.7038L15.7102 25.3686H15.3125L8.22798 68H3.57955L12.0312 17.0909H16.5305L39.5987 59.772H39.9965L47.1058 17.0909H51.6797Z" fill="white"/>

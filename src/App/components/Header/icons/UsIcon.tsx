@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const UsIcon = ( props ) => {
+interface IProps {
+  [key: string]: string
+}
+
+export const UsIcon: React.FC<IProps> = ( props ) => {
   return (
     <svg width="20px" height="20px" viewBox="0 -4 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g clipPath="url(#clip0_1310_7981)">

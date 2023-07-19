@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const RuIcon = ( props ) => {
+interface IProps {
+  [key: string]: string
+}
+
+export const RuIcon: React.FC<IProps> = ( props ) => {
   return (
     <svg width="20" height="20px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img"  preserveAspectRatio="xMidYMid meet" {...props}>
       <path d="M31.9 2c-13 0-24.1 8.4-28.2 20h56.6C56.1 10.4 45 2 31.9 2z" fill="#f9f9f9"></path>

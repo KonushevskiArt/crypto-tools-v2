@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
-const PurchaseCreator = ({ currencyId }) => {
+const PurchaseCreator = ({ id }) => {
   const { t } = useTranslation();
 
   const {
@@ -32,7 +32,7 @@ const PurchaseCreator = ({ currencyId }) => {
   const onSubmit = ({ price, quantity }) => { 
     dispatch(
       addPurchase({
-        currencyId,
+        id,
         price,
         quantity,
         date: Date.parse(new Date(dateValue)),

@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const AppNavigation = () => {
+const AppNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const linksInfo = [
