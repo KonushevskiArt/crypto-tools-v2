@@ -64,6 +64,7 @@ const Authorization = () => {
     mail: string,
     password: string,
   }
+
   const {
     register,
     handleSubmit,
@@ -85,6 +86,7 @@ const Authorization = () => {
           id: user.uid,
           token: expendedUser.accessToken,
         }));
+        
         setLoading(false);
         navigate('/')
       } else {

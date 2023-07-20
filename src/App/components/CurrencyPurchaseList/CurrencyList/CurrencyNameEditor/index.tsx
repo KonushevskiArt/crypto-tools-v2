@@ -1,19 +1,26 @@
-/*eslint-env browser*/
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { editCurrencyName } from "../../../../redux/currencySlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import Badge from "@mui/material/Badge";
 import SaveIcon from "@mui/icons-material/Save";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useTypedDispatch, useTypedSelector } from "../../../../redux/store";
 
-const CurrencyNameEditor = ({ currencyId }) => {
+interface ICurrencyNameEditorProps {
+  currencyId: string
+}
+
+type TFormValues = {
+  name: string
+}
+
+
+const CurrencyNameEditor: React.FC<ICurrencyNameEditorProps> = ({ currencyId }) => {
   const { t } = useTranslation();
 
   const {
@@ -21,11 +28,11 @@ const CurrencyNameEditor = ({ currencyId }) => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const currencies = useSelector((state) => {
+  const currencies = useTypedSelector((state) => {
     return state.currencies.currencies;
   });
 
@@ -33,18 +40,18 @@ const CurrencyNameEditor = ({ currencyId }) => {
 
   const [isEdit, setIsEdit] = React.useState(false);
 
-  const onSaveNewName = ({ name }) => {
+  const onSaveNewName: SubmitHandler<TFormValues> = ({ name }) => {
     dispatch(editCurrencyName({ newName: name, id: currencyId }));
     reset();
     setIsEdit(false)
   };
 
-  const handleEdit = (evt) => {
+  const handleEdit = (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
     evt.preventDefault();
     setIsEdit(true);
   };
-  const handleClickBySaveNewName = (evt) => {
+  const handleClickBySaveNewName = (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
   }
 
@@ -71,7 +78,7 @@ const CurrencyNameEditor = ({ currencyId }) => {
                 label={t("Label_name")}
                 variant="outlined"
                 {...register("name", {
-                  required: t("Required_field"),
+                  required: t("Required_field") as string,
                   maxLength: { value: 20, message: "max length 20 characters" },
                 })}
                 onClick={(e) => e.stopPropagation()}

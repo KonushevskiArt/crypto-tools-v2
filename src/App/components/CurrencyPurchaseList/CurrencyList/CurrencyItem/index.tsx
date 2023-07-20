@@ -4,7 +4,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import PurchaseCreator from "./PurchaseCreator";
-import { useSelector } from "react-redux";
 import { removePurchase } from "../../../../redux/currencySlice";
 import { useDispatch } from "react-redux";
 import TableRow from "@mui/material/TableRow";
@@ -16,23 +15,33 @@ import { Box } from "@mui/material";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
-import AlertDialog from "../../../share/ConfirmationDialog";
+import { AlertDialog } from "../../../share/ConfirmationDialog";
 
 import { CurrencyLineChart } from "./CurrencyLineChart";
 import { useTranslation } from "react-i18next";
 
 import { customSort } from "./customSort";
-// import { InputLabel } from '@mui/material/InputLabel';
+import { useTypedSelector } from "../../../../redux/store";
 
+interface ICurrencyItemProps {
+  currencyId: string
+}
 
-const CurrencyItem = ({ currencyId }) => {
+export enum EnumFilterOfPurchase {
+  date = 'date',
+  price = 'price',
+  quantity = 'quantity',
+  costs = 'costs'
+}
+
+const CurrencyItem: React.FC<ICurrencyItemProps> = ({ currencyId }) => {
   const { t } = useTranslation();
   const [isOpen, setOpen] = React.useState(false);
-  const [removedCurrencyId, setRemovedCurrencyId] = React.useState(null);
+  const [removedCurrencyId, setRemovedCurrencyId] = React.useState('');
   
   const dispatch = useDispatch();
   
-  const listOfPurchases = useSelector((state) => {
+  const listOfPurchases = useTypedSelector((state) => {
     return state.currencies.currencies[currencyId].listOfPurchases;
   });
 
@@ -44,36 +53,36 @@ const CurrencyItem = ({ currencyId }) => {
     setFilteredListOfPurchases(listOfPurchases)
   }, [listOfPurchases])
 
-  const handleClickBy = (evt, filter) => {
+  const handleClickBy = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>, filter: EnumFilterOfPurchase) => {
     evt.stopPropagation()
     setAscending(!isAscending);
     setFilteredListOfPurchases(customSort(listOfPurchases, filter, isAscending));
   }
 
-  const handleClickByPrice = (evt) => {
-    handleClickBy(evt, 'price')
+  const handleClickByPrice = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleClickBy(evt, EnumFilterOfPurchase.price)
   }
 
-  const handleClickByQuantity = (evt) => {
-    handleClickBy(evt, 'quantity')
+  const handleClickByQuantity = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleClickBy(evt, EnumFilterOfPurchase.quantity)
   }
 
-  const handleClickByDate = (evt) => {
-    handleClickBy(evt, 'date')
+  const handleClickByDate = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleClickBy(evt, EnumFilterOfPurchase.date)
   }
   
-  const handleClickByCosts = (evt) => {
-    handleClickBy(evt, 'costs')
+  const handleClickByCosts = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleClickBy(evt, EnumFilterOfPurchase.costs)
   }
 
-  const handleRemovePurchase = (evt, id) => {
+  const handleRemovePurchase = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     evt.stopPropagation();
     evt.preventDefault();
     setRemovedCurrencyId(id);
     setOpen(true);
   };
 
-  const ProvedRemoveCurrency = (id) => {
+  const ProvedRemoveCurrency = (id: string) => {
     dispatch(removePurchase({ currencyId, purchaseId: id }));
     setOpen(false);
   };
@@ -103,7 +112,7 @@ const CurrencyItem = ({ currencyId }) => {
             <TableCell align="center">
               <Button 
                 endIcon={ isAscending ? <TrendingUpIcon /> : <TrendingDownIcon />} 
-                onClick={handleClickByPrice} 
+                onClick={(evt) => handleClickByPrice(evt)} 
                 variant="text">{t("Price")}</Button>
               </TableCell>
             <TableCell align="center">

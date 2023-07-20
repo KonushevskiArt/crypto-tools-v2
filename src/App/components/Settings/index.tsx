@@ -10,38 +10,7 @@ import { useContext } from "react";
 import { ColorContext } from "../../colorContext";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { EnumColors } from "../../colorContext";
 
-const paletteInfo = [
-  {
-    text: "Background",
-    key: EnumColors.background,
-  },
-  {
-    text: "Foreground",
-    key: EnumColors.foreground,
-  },
-  {
-    text: "Header",
-    key: EnumColors.header,
-  },
-  {
-    text: "Success",
-    key: EnumColors.success,
-  },
-  {
-    text: "Error",
-    key: EnumColors.error,
-  },
-  {
-    text: "Primary",
-    key: EnumColors.primary,
-  },
-  {
-    text: "Secondary",
-    key: EnumColors.primary,
-  },
-];
 
 type TMenuProps = {
   isShowMenu: boolean,
@@ -50,15 +19,47 @@ type TMenuProps = {
 
 export const Menu: React.FC<TMenuProps> = ({ isShowMenu, setShowMenu }) => {
   const { t } = useTranslation();
-
+  
   const { colors, setColors, defaultColors } = useContext(ColorContext);
+
+  const paletteInfo = [
+    {
+      text: "Background",
+      key: colors.background,
+    },
+    {
+      text: "Foreground",
+      key: colors.foreground,
+    },
+    {
+      text: "Header",
+      key: colors.header,
+    },
+    {
+      text: "Success",
+      key: colors.success,
+    },
+    {
+      text: "Error",
+      key: colors.error,
+    },
+    {
+      text: "Primary",
+      key: colors.primary,
+    },
+    {
+      text: "Secondary",
+      key: colors.secondary,
+    },
+  ];
+
   const lastCall = React.useRef(0);
   const previousCall = React.useRef(lastCall.current);
 
   const changeColorValue = (evt: React.ChangeEvent<HTMLInputElement>, color: string) => {
     const value = evt.target.value;
     const newColors = { ...colors, [color]: value };
-
+    
     previousCall.current = lastCall.current;
     lastCall.current = Date.now();
     if (
@@ -75,6 +76,7 @@ export const Menu: React.FC<TMenuProps> = ({ isShowMenu, setShowMenu }) => {
     localStorage.setItem("colorTheme", JSON.stringify(defaultColors));
   }
 
+
   const list = () => (
     <Box sx={{ minWidth: 300 }} role="presentation">
       <List>
@@ -90,7 +92,7 @@ export const Menu: React.FC<TMenuProps> = ({ isShowMenu, setShowMenu }) => {
               <ListItemText primary={t(text)} />
               <input
                 onChange={(evt) => changeColorValue(evt, key)}
-                defaultValue={EnumColors[key]}
+                defaultValue={key}
                 type="color"
               ></input>
             </ListItemButton>

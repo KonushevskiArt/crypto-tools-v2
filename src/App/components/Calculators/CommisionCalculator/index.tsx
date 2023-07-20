@@ -2,13 +2,27 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-const CommissionCalculator = () => {
+type TFormValues = {
+  creditLeverage: number,
+  amount: number,
+  entryPrice: number,
+  closingPrice: number
+}
+
+enum EnumFormValues {
+  creditLeverage = "creditLeverage",
+  amount = "amount",
+  entryPrice = "entryPrice",
+  closingPrice = "closingPrice"
+}
+
+const CommissionCalculator: React.FC = () => {
   const { t } = useTranslation();
 
   const [quantity, setQuantity] = React.useState(0);
@@ -23,9 +37,9 @@ const CommissionCalculator = () => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
-  const onSubmit = ({ creditLeverage, amount, entryPrice, closingPrice }) => {
+  const onSubmit: SubmitHandler<TFormValues> = ({ creditLeverage, amount, entryPrice, closingPrice }) => {
     const currentQuantity = (amount * creditLeverage) / entryPrice;
     const currentProfitAndLoss = currentQuantity * (closingPrice - entryPrice);
 
@@ -36,16 +50,16 @@ const CommissionCalculator = () => {
 
     const currentROI = currentProfitAndLossPercentages * creditLeverage;
 
-    setQuantity(Number.parseFloat(currentQuantity).toFixed(6));
-    setInitialMargin(Number.parseFloat(amount).toFixed(6));
-    setProfitAndLoss(Number.parseFloat(currentProfitAndLoss).toFixed(6));
+    setQuantity(Number(Number.parseFloat(String(currentQuantity)).toFixed(6)));
+    setInitialMargin(Number(Number.parseFloat(String(amount)).toFixed(6)));
+    setProfitAndLoss(Number(Number.parseFloat(String(currentProfitAndLoss)).toFixed(6)));
     setProfitAndLossPercentages(
-      Number.parseFloat(currentProfitAndLossPercentages).toFixed(2)
+      Number(Number.parseFloat(String(currentProfitAndLossPercentages)).toFixed(2))
     );
-    setROI(Number.parseFloat(currentROI).toFixed(2));
+    setROI(Number(Number.parseFloat(String(currentROI)).toFixed(2)));
   };
 
-  const removeZeros = (number) => {
+  const removeZeros = (number: number) => {
     return Number(String(number).replace(/0*$/, ""));
   };
 
@@ -58,19 +72,19 @@ const CommissionCalculator = () => {
   const fieldsInfoArr = [
     {
       translationName: "CreditLeverage",
-      registerName: "creditLeverage",
+      registerName: EnumFormValues.creditLeverage,
     },
     {
       translationName: "Amount",
-      registerName: "amount",
+      registerName: EnumFormValues.amount,
     },
     {
       translationName: "EntryPrice",
-      registerName: "entryPrice",
+      registerName: EnumFormValues.entryPrice,
     },
     {
       translationName: "ClosingPrice",
-      registerName: "closingPrice",
+      registerName: EnumFormValues.closingPrice,
     },
   ];
 
@@ -109,7 +123,7 @@ const CommissionCalculator = () => {
                 variant="outlined"
                 sx={{ marginBottom: "20px" }}
                 {...register(registerName, {
-                  required: t("Required_field"),
+                  required: t("Required_field") as string,
                   min: 0.000000000001,
                   pattern: {
                     value: numberValidationExp,
@@ -119,7 +133,7 @@ const CommissionCalculator = () => {
                 error={errors && !!errors[registerName]}
                 helperText={
                   errors && errors[registerName]
-                    ? errors[registerName].message
+                    ? errors[registerName]!.message
                     : null
                 }
               />

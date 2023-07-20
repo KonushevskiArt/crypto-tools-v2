@@ -10,8 +10,11 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import Select from 'react-select';
+import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 import { Box } from '@mui/material';
+import { IPurchase } from '../../../../../shareTypes';
+
+
 
 ChartJS.register(
   CategoryScale,
@@ -27,7 +30,7 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top',
+      position: 'top' as const,
     },
     title: {
       display: true,
@@ -36,21 +39,34 @@ export const options = {
   },
 };
 
+type OptionType = { label: string, value: string };
 
-export const CurrencyLineChart = ({ listOfPurchases }) => {
+type OptionsType = Array<OptionType>;
+
+interface ICurrencyLineChartProps {
+  listOfPurchases: IPurchase[],
+}
+
+
+export const CurrencyLineChart: React.FC<ICurrencyLineChartProps> = ({ listOfPurchases }) => {
   const inputLabels = listOfPurchases.map(el => new Date(el.date).toLocaleDateString("ru-RU"));
   const inputData = listOfPurchases.map(el => el.price);
 
+  console.log('input---------', inputData);
+  
   const [chartData, setChartData] = useState(inputData);
+  // there is a problem after addition new value in chart it did not update 
+  console.log('chart-----', chartData);
   
-  
-  const selectOptions = [
+  const selectOptions: OptionsType = [
     { value: 'price', label: 'Price' },
     { value: 'quantity', label: 'Quantity' },
     { value: 'costs', label: 'Costs' },
   ];
 
-  const handleSelectChange = (data) => {
+
+  const handleSelectChange = (newValue: unknown) => {
+    const data = newValue as OptionType;
     setSelectedOption(data.label);
     if (data.value === 'price') {
       setChartData(listOfPurchases.map(el => el.price));
@@ -84,8 +100,8 @@ export const CurrencyLineChart = ({ listOfPurchases }) => {
       <Box sx={{width: '150px', pl: '20px', pt: '20px'}}>
         <Select
           defaultValue={selectedOption}
-          onChange={handleSelectChange}
-          options={selectOptions}
+          onChange={(newValue: unknown) => handleSelectChange(newValue)}
+          options={selectOptions as OptionsOrGroups<unknown, GroupBase<unknown>>}
         />
       </Box>
       <Line options={options} data={data} />

@@ -2,12 +2,17 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import FunctionsIcon from "@mui/icons-material/Functions";
 
-const InterestCalculator = () => {
+type TFormValues = {
+  entryPrice: number,
+  closingPrice: number
+}
+
+const InterestCalculator: React.FC = () => {
   const [result, setResult] = React.useState(0);
 
   const { t } = useTranslation();
@@ -16,17 +21,17 @@ const InterestCalculator = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
   const numberValidationExp = /^[0-9]*[.]?[0-9]+$/;
 
-  const onSubmit = ({ entryPrice, closingPrice }) => {
+  const onSubmit: SubmitHandler<TFormValues>  = ({ entryPrice, closingPrice }) => {
     const currentRes =
       entryPrice > closingPrice
         ? ((entryPrice - closingPrice) / entryPrice) * 100 * -1
         : ((closingPrice - entryPrice) / entryPrice) * 100;
 
-    setResult(Number.parseFloat(currentRes).toFixed(6));
+    setResult(Number(Number.parseFloat(String(currentRes)).toFixed(6)));
   };
 
   return (
@@ -56,7 +61,7 @@ const InterestCalculator = () => {
             variant="outlined"
             sx={{ marginBottom: "20px" }}
             {...register("entryPrice", {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               min: 0.000000000001,
               pattern: {
                 value: numberValidationExp,
@@ -77,7 +82,7 @@ const InterestCalculator = () => {
             variant="outlined"
             sx={{ marginBottom: "20px" }}
             {...register("closingPrice", {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               min: 0.000000000001,
               pattern: {
                 value: numberValidationExp,
@@ -99,7 +104,6 @@ const InterestCalculator = () => {
             margin: "10px",
           }}
           startIcon={<FunctionsIcon />}
-          // onClick={showInterestCalculator}
         >
           {t("Calculate")}
         </Button>

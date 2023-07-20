@@ -3,19 +3,6 @@ import React, { FC } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { teal, red, blue, pink,  } from '@mui/material/colors';
 
-export enum EnumColors {
-  primary = 'primary',
-  secondary = 'secondary',
-  error = 'error',
-  success = 'success',
-  foreground = 'foreground',
-  background = 'background',
-  header = 'header',
-  navigation = 'navigation',
-  navActiveLink = 'navActiveLink',
-  authWindow = 'authWindow', 
-}
-
 interface IColors {
   primary: string,
   secondary: string,

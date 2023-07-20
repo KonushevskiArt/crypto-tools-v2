@@ -54,8 +54,8 @@ export const AuthorizationBar: React.FC = () => {
         <Stack direction="row" spacing={1} sx={{ mr: '40px', display: 'flex', alignItems: 'center' }}>
           <Typography>{email}</Typography>
           <Button 
-              sx={{ minWidth: 'fit-content'}} 
-              variant="outlined" 
+              sx={{ minWidth: 'fit-content', color: 'white'}} 
+              variant="text" 
               startIcon={<ExitToAppIcon />}
               onClick={handleLogOut}
             >

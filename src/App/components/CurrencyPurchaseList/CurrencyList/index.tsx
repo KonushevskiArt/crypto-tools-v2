@@ -5,38 +5,37 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CurrencyItem from "./CurrencyItem";
-import { useSelector } from "react-redux";
 import { removeCurrency } from "../../../redux/currencySlice";
-import { useDispatch } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import CurrencyNameEditor from "./CurrencyNameEditor";
 import { useTranslation } from "react-i18next";
-import AlertDialog from "../../share/ConfirmationDialog";
+import { AlertDialog } from "../../share/ConfirmationDialog";
 import Box from "@mui/material/Box";
 import AdditionalInfo from "./AdditionalInfo";
+import { useTypedDispatch, useTypedSelector } from "../../../redux/store";
 
-const CurrencyList = () => {
+const CurrencyList: React.FC = () => {
   const { t } = useTranslation();
 
   const [isOpen, setOpen] = React.useState(false);
-  const [removedCurrencyId, setRemovedCurrencyId] = React.useState(null);
+  const [removedCurrencyId, setRemovedCurrencyId] = React.useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const currencies = useSelector((state) => state.currencies.currencies);
+  const currencies = useTypedSelector((state) => state.currencies.currencies);
 
   const currenciesArr = Object.keys(currencies);
 
-  const handleRemoveCurrency = (evt, id) => {
+  const handleRemoveCurrency = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     evt.stopPropagation();
     evt.preventDefault();
     setRemovedCurrencyId(id);
     setOpen(true);
   };
 
-  const ProvedRemoveCurrency = (id) => {
+  const ProvedRemoveCurrency = (id: string) => {
     dispatch(removeCurrency({ id }));
     setOpen(false);
   };

@@ -6,8 +6,14 @@ import {
   totalCosts,
   totalQuantity,
 } from "../../../../Utils/calculations";
+import { ICurrencies } from '../../../../shareTypes';
 
-const AdditionalInfo = ({ currencies, currencyId }) => {
+interface IAdditionalInfoProps {
+  currencies: ICurrencies,
+  currencyId: string
+}
+
+const AdditionalInfo: React.FC<IAdditionalInfoProps> = ({ currencies, currencyId }) => {
   const listOfPurchase = currencies[currencyId].listOfPurchases;
   
   return (

@@ -7,12 +7,19 @@ import { useTranslation } from "react-i18next";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import DoneIcon from "@mui/icons-material/Done";
 
-export default function AlertDialog({
+interface IAlertDialogProps {
+  isOpen: boolean,
+  handleClose: () => void,
+  handleAccept: () => void,
+  title: string,
+}
+
+export const AlertDialog: React.FC<IAlertDialogProps> = ({
   isOpen,
   handleClose,
   handleAccept,
   title,
-}) {
+}) => {
   const { t } = useTranslation();
 
   return (

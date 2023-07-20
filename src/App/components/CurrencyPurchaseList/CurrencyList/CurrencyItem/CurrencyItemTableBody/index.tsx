@@ -6,6 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
+import { IPurchase } from '../../../../../shareTypes';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -16,7 +17,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const CurrencyItemTableBody = ({ listOfPurchases, handleRemovePurchase }) => {
+interface ICurrencyItemTableBodyProps {
+  listOfPurchases: IPurchase[],
+  handleRemovePurchase: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void
+}
+
+const CurrencyItemTableBody: React.FC<ICurrencyItemTableBodyProps> = ({ listOfPurchases, handleRemovePurchase }) => {
   return (
     <TableBody>
       {listOfPurchases

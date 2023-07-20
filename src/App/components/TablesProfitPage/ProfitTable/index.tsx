@@ -15,18 +15,24 @@ import { useDispatch } from "react-redux";
 
 import { useTranslation } from "react-i18next";
 
-import AlertDialog from '../../share/ConfirmationDialog';
+import { AlertDialog } from '../../share/ConfirmationDialog';
+import { IProfitTable } from '../../../shareTypes';
 
-export default function ProfitTable({ tableId, tableData }) {
+interface IProfitTableProps {
+  tableId: string,
+  tableData: IProfitTable
+}
+
+export const ProfitTable: React.FC<IProfitTableProps> = ({ tableId, tableData }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [isOpen, setOpen] = useState(false);
 
-  const [idOfWillDeletedRow, setIdOfWillDeletedRow] = useState(null);
-  const [nameOfWillDeletedRow, setNameOfWillDeletedRow] = useState(null);
+  const [idOfWillDeletedRow, setIdOfWillDeletedRow] = useState('');
+  const [nameOfWillDeletedRow, setNameOfWillDeletedRow] = useState('');
 
-  const handleRemoveRow = (evt, id, name) => {
+  const handleRemoveRow = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string, name: string) => {
     evt.stopPropagation();
     evt.preventDefault();
     setOpen(true);
@@ -35,7 +41,7 @@ export default function ProfitTable({ tableId, tableData }) {
   };
   
   const ProvedRemoveRow = () => {
-    dispatch(removeProfitTableRow({ tableId, idOfWillDeletedRow }))
+    dispatch(removeProfitTableRow({ tableId, rowId: idOfWillDeletedRow }))
     setOpen(false);
   };
 

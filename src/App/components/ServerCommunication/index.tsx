@@ -11,7 +11,7 @@ import { updateProfitTablesState } from '../../redux/profitTablesSlice';
 import { useDispatch } from 'react-redux';
 import { remoteApi } from '../../services/remoteApi';
 import toast from 'react-hot-toast';
-import AlertDialog from '../share/ConfirmationDialog';
+import { AlertDialog } from '../share/ConfirmationDialog';
 
 
 type TProps = {

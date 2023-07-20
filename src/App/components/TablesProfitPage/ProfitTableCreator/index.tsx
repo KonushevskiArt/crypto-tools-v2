@@ -1,28 +1,31 @@
-/* eslint-env browser */
 import * as React from "react";
 import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
 import DataSaverOnIcon from "@mui/icons-material/DataSaverOn";
 import { addProfitTable } from "../../../redux/profitTablesSlice";
 
 import { useTranslation } from "react-i18next";
 
-const ProfitTableCreator = () => {
+type TFormValues = {
+  name: string
+}
+
+const ProfitTableCreator: React.FC = () => {
   const { t } = useTranslation();
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
   const dispatch = useDispatch();
 
-  const onSubmit = ({ name }) => {
+  const onSubmit: SubmitHandler<TFormValues> = ({ name }) => {
     const trimmedName = name.trim();
     dispatch(addProfitTable({ name: trimmedName }));
     reset();
@@ -62,10 +65,10 @@ const ProfitTableCreator = () => {
             label={t("Label_name")}
             variant="standard"
               {...register("name", {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               maxLength: { value: 30, message: "max length 30 characters" },
             })}
-            error={errors.name}
+            error={Boolean(errors.name)}
             helperText={ errors.name ? errors.name.message : null }
           />
           <Button

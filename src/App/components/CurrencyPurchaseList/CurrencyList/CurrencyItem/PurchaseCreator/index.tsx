@@ -2,15 +2,25 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
 import { addPurchase } from "../../../../../redux/currencySlice";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import { useTypedDispatch } from "../../../../../redux/store";
 
-const PurchaseCreator = ({ id }) => {
+interface IPurchaseCreatorProps {
+  id: string
+}
+
+type TFormValues = {
+  price: number, 
+  quantity: number,
+  date: Dayjs
+}
+
+const PurchaseCreator: React.FC<IPurchaseCreatorProps> = ({ id }) => {
   const { t } = useTranslation();
 
   const {
@@ -18,24 +28,23 @@ const PurchaseCreator = ({ id }) => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
-  const [dateValue, setDateValue] = React.useState(dayjs(Date.now()));
+  const [dateValue, setDateValue] = React.useState<Dayjs>(dayjs(Date.now()));
 
-  const handleChange = (newValue) => {
-    const formatedDate = Date.parse(new Date(newValue.$d));
-    setDateValue(formatedDate);
+  const handleChange = (newValue: Dayjs) => {
+    setDateValue(newValue);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const onSubmit = ({ price, quantity }) => { 
+  const onSubmit: SubmitHandler<TFormValues> = ({ price, quantity }) => { 
     dispatch(
       addPurchase({
         id,
         price,
         quantity,
-        date: Date.parse(new Date(dateValue)),
+        date: dayjs(dateValue).valueOf(),
       })
     );
     reset();
@@ -57,14 +66,14 @@ const PurchaseCreator = ({ id }) => {
           label={t("Date&Time_picker")}
           inputFormat="DD/MM/YYYY"
           value={dateValue}
-          onChange={handleChange}
+          onChange={(newValue) => handleChange(newValue as Dayjs)}
           renderInput={(params) => (
             <TextField
               size="small"
               sx={{ marginRight: "20px" }}
               {...params}
               {...register("date", {
-                required: t("Required_field"),
+                required: t("Required_field") as string,
               })}
             />
           )}
@@ -74,7 +83,7 @@ const PurchaseCreator = ({ id }) => {
           variant="standard"
           sx={{ marginRight: "20px" }}
           {...register("price", {
-            required: t("Required_field"),
+            required: t("Required_field") as string,
             min: 0.000000000001,
             pattern: {
               value: numberValidationExp,
@@ -91,7 +100,7 @@ const PurchaseCreator = ({ id }) => {
           label={t("Quantity")}
           variant="standard"
           {...register("quantity", {
-            required: t("Required_field"),
+            required: t("Required_field") as string,
             min: 0.000000000001,
             pattern: {
               value: numberValidationExp,

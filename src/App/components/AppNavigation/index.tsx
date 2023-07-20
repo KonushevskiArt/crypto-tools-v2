@@ -13,7 +13,7 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import styles from "./styles.module.css";
 
 
-export const AppNavigation = () => {
+export const AppNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const linksInfo = [

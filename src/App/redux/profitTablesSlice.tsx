@@ -1,15 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { IRowOfProfitTable, IProfitTables } from "../shareTypes";
+import { IProfitTables } from "../shareTypes";
 
 
 interface IState {
   tables: IProfitTables
 }
 
-interface IAddProfitTableRow extends IRowOfProfitTable {
-  tableId: string
+interface IAddProfitTableRow  {
+  tableId: string,
+  coinName: string,
+  entryPrice: number, 
+  exitPrice: number,
+  sl: number,
+  by: number,
+  tp1: number,
+  tp2: number,
+  tp3: number
 }
 
 

@@ -3,27 +3,51 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { addProfitTableRow } from "../../../redux/profitTablesSlice";
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTypedDispatch } from "../../../redux/store";
 
+interface IProfitTableRowCreatorProps {
+  tableId: string
+}
 
+enum EnumFormValues {
+  coinName = "coinName",
+  entryPrice = "entryPrice",
+  exitPrice = "exitPrice",
+  sl = "sl",
+  by = "by", 
+  tp1 = "tp1",
+  tp2 = "tp2", 
+  tp3 = "tp3"
+}
 
-const ProfitTableRowCreator = ({ tableId }) => {
+type TFormValues = {
+  coinName: string,
+  entryPrice: number,
+  exitPrice: number,
+  sl: number,
+  by: number, 
+  tp1: number,
+  tp2: number, 
+  tp3: number
+}
+
+const ProfitTableRowCreator: React.FC<IProfitTableRowCreatorProps> = ({ tableId }) => {
   const { t } = useTranslation();
   const matches = useMediaQuery('(min-width:1050px)');
   
   const arrOfNumberFieldsData = [
-    {label: t("EntryPrice"), register: 'entryPrice'}, 
-    {label: t("ClosingPrice"), register: 'exitPrice'},
-    {label: 'SL', register: 'sl'},
-    {label: 'BY', register: 'by'},
-    {label: 'TP1', register: 'tp1'},
-    {label: 'TP2', register: 'tp2'},
-    {label: 'TP3', register: 'tp3'},
+    {label: t("EntryPrice") as string, register: EnumFormValues.entryPrice}, 
+    {label: t("ClosingPrice") as string, register: EnumFormValues.exitPrice},
+    {label: 'SL', register: EnumFormValues.sl},
+    {label: 'BY', register:EnumFormValues.by},
+    {label: 'TP1', register: EnumFormValues.tp1},
+    {label: 'TP2', register: EnumFormValues.tp2},
+    {label: 'TP3', register: EnumFormValues.tp3},
   ] 
 
   const {
@@ -31,12 +55,12 @@ const ProfitTableRowCreator = ({ tableId }) => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TFormValues>();
 
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
 
-  const onSubmit = ({ coinName, entryPrice, exitPrice, sl, by, tp1, tp2, tp3 }) => {
+  const onSubmit: SubmitHandler<TFormValues> = ({ coinName, entryPrice, exitPrice, sl, by, tp1, tp2, tp3 }) => {
     dispatch(
       addProfitTableRow({
         tableId, coinName, entryPrice, exitPrice, sl, by, tp1, tp2, tp3
@@ -65,7 +89,7 @@ const ProfitTableRowCreator = ({ tableId }) => {
           label={t("Label_name")}
           variant="standard"
           {...register("coinName", {
-            required: t("Required_field"),
+            required: t("Required_field") as string,
             maxLength: { value: 20, message: "max length 20 characters" },
           })}
           error={!!errors.coinName || false}
@@ -79,7 +103,7 @@ const ProfitTableRowCreator = ({ tableId }) => {
             variant="standard"
             sx={{ marginRight: "20px" }}
             {...register(cel.register, {
-              required: t("Required_field"),
+              required: t("Required_field") as string,
               min: 0.000000000001,
               pattern: {
                 value: numberValidationExp,
@@ -87,7 +111,7 @@ const ProfitTableRowCreator = ({ tableId }) => {
               },
             })}
             error={!!errors[cel.register] || false}
-            helperText={errors[cel.register] ? errors[cel.register].message : null}
+            helperText={errors[cel.register] ? errors[cel.register]!.message : null}
           />)
           )
         }

@@ -1,4 +1,3 @@
-/* eslint-env browser*/
 import React from 'react';
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -9,8 +8,13 @@ import {
   totalQuantity,
 } from "../../../../../Utils/calculations";
 import { useTranslation } from "react-i18next";
+import { IPurchase } from '../../../../../shareTypes';
 
-const CurrencyItemTableFooter = ({ listOfPurchases }) => {
+interface ICurrencyItemTableFooterProps {
+  listOfPurchases: IPurchase[],
+}
+
+const CurrencyItemTableFooter: React.FC<ICurrencyItemTableFooterProps> = ({ listOfPurchases }) => {
   const { t } = useTranslation();
   return (
     <TableFooter>

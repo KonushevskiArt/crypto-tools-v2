@@ -15,7 +15,13 @@ const style = {
   overflow: "hidden",
 };
 
-export default function AppModal({ open, setOpen, children }) {
+interface IAppModalProps {
+  open: boolean,
+  setOpen: (value: boolean) => void, 
+  children: JSX.Element
+}
+
+export const AppModal: React.FC<IAppModalProps> = ({ open, setOpen, children }) => {
   const handleClose = () => setOpen(false);
 
   return (

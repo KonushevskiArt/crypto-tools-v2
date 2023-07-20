@@ -2,11 +2,11 @@
 import React from "react";
 import List from "@mui/material/List";
 import ProfitTableCreator from "../ProfitTableCreator";
-import { useSelector } from "react-redux";
 import ItemOfProfitTablesList from "./ItemOfProfitTablesList";
+import { useTypedSelector } from "../../../redux/store";
 
-const ListOfProfitTables = () => {
-  const profitTables = useSelector((state) => state.tables.tables);
+const ListOfProfitTables: React.FC = () => {
+  const profitTables = useTypedSelector((state) => state.tables.tables);
   const profitTablesArr = Object.keys(profitTables);
 
   return (
@@ -28,7 +28,7 @@ const ListOfProfitTables = () => {
           name={profitTables[id].name}
         />
       ))}
-      <ProfitTableCreator profitTables={profitTables} />
+      <ProfitTableCreator />
     </List>
   );
 };
