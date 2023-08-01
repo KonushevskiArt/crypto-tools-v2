@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { editProfitTableName } from "../../../../redux/profitTablesSlice";
 import { Typography } from '@mui/material';
-import AlertDialog from "../../../share/ConfirmationDialog";
+import { AlertDialog } from "../../../share/ConfirmationDialog";
 
 const ItemOfProfitTablesList = ({ id, date, name }) => {
   const dispatch = useDispatch();
